@@ -1,8 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\scripts\src\characters\Hostage.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\scripts\src\props\tools\Item.cs">
     <Files>
-      <File FileName="Assets\scripts\src\characters\Hostage.cs" Line="13" Column="20" />
+      <File FileName="Assets\scripts\src\props\tools\Item.cs" Line="6" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -1,9 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Gun {
+public interface Item {
 
-	public Gun(){
-		
-	}
+	
 }
