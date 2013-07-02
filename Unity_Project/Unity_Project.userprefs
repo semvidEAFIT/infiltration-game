@@ -1,8 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\scripts\src\props\tools\Item.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\scripts\src\ctrl\Objective.cs">
     <Files>
-      <File FileName="Assets\scripts\src\props\tools\Item.cs" Line="6" Column="2" />
+      <File FileName="Assets\scripts\src\ctrl\Level.cs" Line="21" Column="27" />
+      <File FileName="Assets\scripts\src\ctrl\Objective.cs" Line="22" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
