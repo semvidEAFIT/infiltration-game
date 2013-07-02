@@ -49,11 +49,12 @@ public class Person : MonoBehaviour {
 		
 	}
 	
-	public void takeDamage(int damage){
+	public void TakeDamage(int damage){
 		healthPoints -= damage;
 		
 		if (healthPoints<=0){
 			//person dead
+			Destroy(this.gameObject);
 		}
 	}
 	

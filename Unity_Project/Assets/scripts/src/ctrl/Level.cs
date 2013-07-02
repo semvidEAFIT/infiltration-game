@@ -25,9 +25,6 @@ public class Level : MonoBehaviour {
 		objectiveCount=0;
 	}
 	
-    
-
-	
 	// Use this for initialization
 	void Start () {
 	}
@@ -37,10 +34,10 @@ public class Level : MonoBehaviour {
 	}
 	
 	
-	public void addObjective(){
+	public void AddObjective(){
 		objectiveCount++;
 	}
-	public void objectiveDone(){
+	public void ObjectiveDone(){
 		objectiveCount--;
 	}
 }
