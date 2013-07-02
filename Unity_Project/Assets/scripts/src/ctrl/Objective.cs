@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 
 public class Objective : MonoBehaviour {
-
+	
 	// Use this for initialization
 	void Start () {
 		Level.Instance.addObjective();
