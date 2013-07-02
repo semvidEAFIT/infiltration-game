@@ -5,22 +5,27 @@ using System.Collections.Generic;
 
 public class Person : MonoBehaviour {
 	
+<<<<<<< HEAD
 	private List<Vector3> route;
 	private Vector3 destination;
 	public float speed;
-	
+	// Use this for initialization
+	void Start () {
+		route = new List<Vector3>();
+		destination = Vector3.zero;
+=======
 	private int healthPoints;
 	public int initialHealth=5;
 	
 	// Use this for initialization
 	void Start () {
-		route = new List<Vector3>();
-		destination = Vector3.zero;
 		healthPoints=initialHealth;
+>>>>>>> 004b2697f6f3792ec3549fbf939a8c4890f6e1bf
 	}
 	
 	// Update is called once per frame
 	void Update () {
+<<<<<<< HEAD
 		if(destination ==  Vector3.zero && route.Count > 0){
 			destination = route[0];
 			route.RemoveAt(0);
@@ -41,14 +46,18 @@ public class Person : MonoBehaviour {
 		
 	}
 	
+	public void AddWayPoint(Vector3 point){
+		route.Add(point);
+=======
+	}
+	
 	public void takeDamage(int damage){
 		healthPoints -= damage;
 		
 		if (healthPoints<=0){
 			//person dead
 		}
-	public void AddWayPoint(Vector3 point){
-		route.Add(point);
+>>>>>>> 004b2697f6f3792ec3549fbf939a8c4890f6e1bf
 	}
 	
 	#region
