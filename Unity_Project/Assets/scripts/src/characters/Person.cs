@@ -47,6 +47,7 @@ public class Person : MonoBehaviour {
 		if (healthPoints<=0){
 			//person dead
 		}
+	}
 	public void AddWayPoint(Vector3 point){
 		route.Add(point);
 	}
