@@ -48,13 +48,13 @@ public class Person : MonoBehaviour {
 			}catch{}
 		}
 		Debug.DrawLine(transform.position + transform.forward,transform.position + transform.forward*10,Color.blue);
-		if(Input.GetMouseButtonDown(0) && follow == null){
-			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-      		RaycastHit hit;
-        	if(Physics.Raycast(ray, out hit)){
-				AddWayPoint(hit.point);	
-			}
-		}
+//		if(Input.GetMouseButtonDown(0) && follow == null){
+//			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+//      		RaycastHit hit;
+//        	if(Physics.Raycast(ray, out hit)){
+//				AddWayPoint(hit.point);	
+//			}
+//		}
 		
 	}
 	
@@ -79,7 +79,7 @@ public class Person : MonoBehaviour {
 		}
 		set {
 			destination = value;
-			this.transform.LookAt(destination);
+			this.transform.LookAt(new Vector3(destination.x,1.5f,destination.z));
 		}
 	}
 	
@@ -98,7 +98,7 @@ public class Person : MonoBehaviour {
 	public Vector3 Last {
 		get {
 			Vector3 ret = last[0];
-			last.RemoveAt(0);
+			last.RemoveAt(0); //TODO: fix for multiple followers
 			return ret;
 		}
 	}

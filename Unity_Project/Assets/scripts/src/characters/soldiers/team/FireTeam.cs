@@ -1,17 +1,20 @@
 using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
-public class FireTeam : MonoBehaviour {
+public class FireTeam : MonoBehaviour, ICommand {
 	
 	public GameObject[] soldiers;
 	private Point point;
 	private FireTeamState state;
+	private List<Command> commands;
+	private Command lastCommand;
+	
 	
 	public float formation;
 	
 	// Use this for initialization
 	void Start () {
-		
+		commands = new List<Command>();
 	}
 	
 	// Update is called once per frame
@@ -20,21 +23,27 @@ public class FireTeam : MonoBehaviour {
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
       		RaycastHit hit;
         	if(Physics.Raycast(ray, out hit)){
-				MoveInLineFormation(hit.point);
+				MoveInArrowFormation(hit.point);
 			}
 		}
 	}
 	
 	public void MoveInArrowFormation(Vector3 target){ //en cuña
-		soldiers[0].GetComponent<Soldier>().AddWayPoint(target + soldiers[0].transform.forward*3);
+		Vector3 frontDir = (target - transform.position).normalized;
+		Vector3 sideDir = Vector3.Cross(frontDir,Vector3.up).normalized;
+		Vector3 soldier1Tar = target + frontDir*2;
+		Vector3 soldier2Tar = target + (sideDir-frontDir)*4;
+		Vector3 soldier3Tar = target - (sideDir+frontDir)*4;
+		
+		soldiers[0].GetComponent<Soldier>().AddWayPoint(soldier1Tar);
 		try{
-			soldiers[1].GetComponent<Soldier>().AddWayPoint(target - (soldiers[1].transform.forward - soldiers[1].transform.right)*3);
+			soldiers[1].GetComponent<Soldier>().AddWayPoint(soldier2Tar);
 		} catch (System.Exception ex) {
 			Debug.LogError(ex.ToString()); //Si esta muerto
 		}
 		
 		try{
-			soldiers[2].GetComponent<Soldier>().AddWayPoint(target - (soldiers[2].transform.forward + soldiers[2].transform.right)*3);
+			soldiers[2].GetComponent<Soldier>().AddWayPoint(soldier3Tar);
 		} catch (System.Exception ex) {
 			Debug.LogError(ex.ToString());//Si tambien esta muerto
 		}
@@ -52,5 +61,39 @@ public class FireTeam : MonoBehaviour {
 		} catch {
 			//si no existe mas
 		}
+	}
+	
+	public void AddCommand(Command command){
+		if (!commands.Contains(command)){
+			commands.Add(command);
+			command.AddICommand(this);
+		}
+	}
+	
+	public void ExecuteCommand(){
+		if (commands.Count > 0){
+			lastCommand = commands[0];
+			lastCommand.Start();
+			commands.RemoveAt(0);
+		}
+	}
+
+	public Command LastCommand {
+		get {
+			return this.lastCommand;
+		}
+		set {
+			lastCommand = value;
+		}
+	}
+	
+	public void CommandStarted (Command command)
+	{
+		
+	}
+
+	public void CommandEnded (Command command)
+	{
+		
 	}
 }
