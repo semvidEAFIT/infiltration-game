@@ -85,4 +85,17 @@ public class Person : MonoBehaviour {
 	}
 	
 	#endregion
+	
+	#region Senses
+	public void HearNoise(GameObject g){
+		StartCoroutine(TurnColor(Color.green));	
+	}	
+	
+	IEnumerator TurnColor(Color color){
+		Color c = renderer.material.color;
+		renderer.material.color = color;
+		yield return new WaitForSeconds(3.0f);
+		renderer.material.color = c;
+	}
+	#endregion
 }
