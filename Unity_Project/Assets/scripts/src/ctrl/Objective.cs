@@ -5,7 +5,7 @@ public class Objective : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		Level.Instance.addObjective();
+		Level.Instance.AddObjective();
 	}
 	
 	void Awake(){
@@ -18,6 +18,6 @@ public class Objective : MonoBehaviour {
 	}
 	
 	public void ObjectiveDone(){
-		Level.Instance.objectiveDone();
+		Level.Instance.ObjectiveDone();
 	}
 }
