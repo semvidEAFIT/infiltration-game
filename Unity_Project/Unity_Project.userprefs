@@ -1,9 +1,18 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\scripts\src\characters\soldiers\team\FireTeam.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\scripts\src\props\guns\Gun.cs">
     <Files>
+<<<<<<< HEAD
       <File FileName="Assets\scripts\src\characters\soldiers\team\FireTeam.cs" Line="33" Column="54" />
       <File FileName="Assets\scripts\src\characters\Person.cs" Line="82" Column="72" />
+=======
+      <File FileName="Assets\scripts\src\characters\Person.cs" Line="1" Column="1" />
+      <File FileName="Assets\scripts\src\characters\soldiers\Soldier.cs" Line="10" Column="28" />
+      <File FileName="Assets\scripts\src\props\guns\Gun.cs" Line="14" Column="77" />
+      <File FileName="Assets\scripts\src\props\guns\SubmachineGun.cs" Line="33" Column="90" />
+      <File FileName="Assets\scripts\src\props\tools\IItem.cs" Line="5" Column="16" />
+      <File FileName="Assets\scripts\src\props\guns\ThrowableExplosive.cs" Line="10" Column="32" />
+>>>>>>> fb51a27d98abe71796572ab0a7488c28aabfc5a8
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

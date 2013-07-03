@@ -12,8 +12,8 @@ public class Person : MonoBehaviour {
 	public GameObject follow;// se debe popner privado una ves se programe un rehen
 	private CharacterController cc;
 	public float distance;
-	private int healthPoints;
-	public int initialHealth=5;
+	private float healthPoints;
+	public float initialHealth = 5f;
 	
 	// Use this for initialization
 	public virtual void Start () {
@@ -22,7 +22,7 @@ public class Person : MonoBehaviour {
 		route = new List<Vector3>();
 		destination = Vector3.zero;
 		healthPoints = initialHealth;
-		if(follow!=null){//se quita una ves se programe un rehen
+		if(follow != null){//se quita una vez se programe un rehen
 			Destination = follow.transform.position;
 		}
 		cc = GetComponent<CharacterController>();
@@ -58,7 +58,7 @@ public class Person : MonoBehaviour {
 		
 	}
 	
-	public void TakeDamage(int damage){
+	public void TakeDamage(float damage){
 		healthPoints -= damage;
 		
 		if (healthPoints<=0){
@@ -101,6 +101,19 @@ public class Person : MonoBehaviour {
 			last.RemoveAt(0); //TODO: fix for multiple followers
 			return ret;
 		}
+	}
+	#endregion
+	
+	#region Senses
+	public void HearNoise(GameObject g){
+		StartCoroutine(TurnColor(Color.green));	
+	}	
+	
+	IEnumerator TurnColor(Color color){
+		Color c = renderer.material.color;
+		renderer.material.color = color;
+		yield return new WaitForSeconds(3.0f);
+		renderer.material.color = c;
 	}
 	#endregion
 }
