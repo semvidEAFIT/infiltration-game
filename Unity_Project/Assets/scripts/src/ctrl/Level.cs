@@ -1,8 +1,11 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Level : MonoBehaviour {
 	
+	
+	private List<Nodo> nodos;
 	private static Level instance;
 	
 	public static Level Instance {
@@ -23,6 +26,17 @@ public class Level : MonoBehaviour {
         }
 		
 		objectiveCount=0;
+		
+		nodos = new List<Nodo>();
+		GameObject[] gNodo = GameObject.FindGameObjectsWithTag("Nodo");
+		foreach(GameObject g in gNodo){
+			nodos.Add(g.GetComponent<Nodo>());	
+		}
+		List<Nodo> unSeen = new List<Nodo>(nodos);
+		foreach(Nodo n in nodos){
+			unSeen.Remove(n);
+			n.FindNeighbors(unSeen);
+		}
 	}
 	
 	// Use this for initialization
