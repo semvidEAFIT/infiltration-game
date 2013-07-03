@@ -32,17 +32,18 @@ public class Person : MonoBehaviour {
 	public virtual void Update () {
 		if(follow == null && destination ==  Vector3.zero && route.Count > 0){
 			Destination = route[0];
+			last.Add(destination);
 			route.RemoveAt(0);
 		}else if(destination != Vector3.zero && (follow==null || 
 			(follow!=null && (follow.transform.position-transform.position).magnitude > distance))){
 			cc.SimpleMove ((destination-transform.position)*speed);
 			if((transform.position-destination).magnitude < 10){
-				last.Add(destination);
 				destination = Vector3.zero;
 			}
 		}else if(follow != null && ((destination-transform.position).magnitude < 10||destination==Vector3.zero)){
 			try{
 				Destination =  follow.GetComponent<Person>().Last;
+				last.Add(destination);
 		
 			}catch{}
 		}
