@@ -7,6 +7,8 @@ public class FireTeam : MonoBehaviour {
 	private Point point;
 	private FireTeamState state;
 	
+	public float formation;
+	
 	// Use this for initialization
 	void Start () {
 		
@@ -18,24 +20,37 @@ public class FireTeam : MonoBehaviour {
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
       		RaycastHit hit;
         	if(Physics.Raycast(ray, out hit)){
-				MoveFireTeamTo(hit.point);
+				MoveInLineFormation(hit.point);
 			}
 		}
 	}
 	
-	public void MoveFireTeamTo(Vector3 target){
-		//en cuña
+	public void MoveInArrowFormation(Vector3 target){ //en cuña
 		soldiers[0].GetComponent<Soldier>().AddWayPoint(target + soldiers[0].transform.forward*3);
 		try{
 			soldiers[1].GetComponent<Soldier>().AddWayPoint(target - (soldiers[1].transform.forward - soldiers[1].transform.right)*3);
 		} catch (System.Exception ex) {
-			Debug.LogError(ex.ToString());
+			Debug.LogError(ex.ToString()); //Si esta muerto
 		}
 		
 		try{
 			soldiers[2].GetComponent<Soldier>().AddWayPoint(target - (soldiers[2].transform.forward + soldiers[2].transform.right)*3);
 		} catch (System.Exception ex) {
-			Debug.LogError(ex.ToString());
+			Debug.LogError(ex.ToString());//Si tambien esta muerto
+		}
+	}
+	
+	public void MoveInLineFormation (Vector3 target){ //en "fila india"
+		soldiers[0].GetComponent<Soldier>().AddWayPoint(target);
+		try {
+			soldiers[1].GetComponent<Soldier>().Follow = soldiers[0];
+		} catch {
+			//Si lo mataron :(
+		}
+		try {
+			soldiers[2].GetComponent<Soldier>().Follow = soldiers[1];
+		} catch {
+			//si no existe mas
 		}
 	}
 }
