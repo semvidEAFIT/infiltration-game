@@ -7,6 +7,7 @@ public class Person : MonoBehaviour {
 	
 	private List<Vector3> route;
 	private Vector3 destination;
+	private List<Vector3> last;
 	public float speed;
 	public GameObject follow;// se debe popner privado una ves se programe un rehen
 	private CharacterController cc;
@@ -15,35 +16,43 @@ public class Person : MonoBehaviour {
 	public float initialHealth = 5f;
 	
 	// Use this for initialization
-	void Start () {
+	public virtual void Start () {
+		last = new List<Vector3>();
+		last.Add(transform.position);
 		route = new List<Vector3>();
 		destination = Vector3.zero;
-		healthPoints=initialHealth;
+		healthPoints = initialHealth;
 		if(follow != null){//se quita una vez se programe un rehen
-			destination = follow.transform.position;
+			Destination = follow.transform.position;
 		}
 		cc = GetComponent<CharacterController>();
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	public virtual void Update () {
 		if(follow == null && destination ==  Vector3.zero && route.Count > 0){
-			destination = route[0];
+			Destination = route[0];
+			last.Add(destination);
 			route.RemoveAt(0);
-		}else if(destination != Vector3.zero){
+		}else if(destination != Vector3.zero && (follow==null || 
+			(follow!=null && (follow.transform.position-transform.position).magnitude > distance))){
 			cc.SimpleMove ((destination-transform.position)*speed);
 			if((transform.position-destination).magnitude < 10){
 				destination = Vector3.zero;
 			}
-		}else if(follow != null && (follow.transform.position-transform.position).magnitude > distance){
-			destination =  follow.GetComponent<Person>().Destination;
-		}
+		}else if(follow != null && ((destination-transform.position).magnitude < 10||destination==Vector3.zero)){
+			try{
+				Destination =  follow.GetComponent<Person>().Last;
+				last.Add(destination);
 		
-		if(Input.GetMouseButton(0)){
+			}catch{}
+		}
+		Debug.DrawLine(transform.position + transform.forward,transform.position + transform.forward*10,Color.blue);
+		if(Input.GetMouseButtonDown(0) && follow == null){
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
       		RaycastHit hit;
         	if(Physics.Raycast(ray, out hit)){
-				AddWayPoint(hit.point);
+				AddWayPoint(hit.point);	
 			}
 		}
 		
@@ -70,6 +79,7 @@ public class Person : MonoBehaviour {
 		}
 		set {
 			destination = value;
+			this.transform.LookAt(destination);
 		}
 	}
 	
@@ -84,5 +94,26 @@ public class Person : MonoBehaviour {
 		}
 	}
 	
+
+	public Vector3 Last {
+		get {
+			Vector3 ret = last[0];
+			last.RemoveAt(0);
+			return ret;
+		}
+	}
+	#endregion
+	
+	#region Senses
+	public void HearNoise(GameObject g){
+		StartCoroutine(TurnColor(Color.green));	
+	}	
+	
+	IEnumerator TurnColor(Color color){
+		Color c = renderer.material.color;
+		renderer.material.color = color;
+		yield return new WaitForSeconds(3.0f);
+		renderer.material.color = c;
+	}
 	#endregion
 }

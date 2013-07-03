@@ -13,12 +13,14 @@ public class Soldier : Person {
 	public float shootingForce;
 	
 	// Use this for initialization
-	void Start () {
+	public override void Start () {
+		base.Start();
 		mainWeapon = new SubmachineGun(this.gameObject, maxGunAmmo, initialGunMags, bulletDamage, accuracyDelta, shootingForce);
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	public override void Update () {
+		base.Update();
 		if(Input.GetKeyDown(KeyCode.Space)){
 			Shoot();
 		}
