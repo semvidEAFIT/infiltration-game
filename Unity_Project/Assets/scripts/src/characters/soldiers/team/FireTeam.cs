@@ -23,7 +23,7 @@ public class FireTeam : MonoBehaviour, ICommand {
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
       		RaycastHit hit;
         	if(Physics.Raycast(ray, out hit)){
-				MoveInArrowFormation(hit.point);
+				MoveInLineFormation(hit.point);
 			}
 		}
 	}
