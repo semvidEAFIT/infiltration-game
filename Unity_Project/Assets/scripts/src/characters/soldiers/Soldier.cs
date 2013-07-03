@@ -24,6 +24,9 @@ public class Soldier : Person {
 		if(Input.GetKeyDown(KeyCode.Space)){
 			Shoot();
 		}
+		if(Input.GetKey(KeyCode.A)){
+			transform.Translate(new Vector3(1, 0, 0));
+		}
 	}
 	
 	private void Shoot(){

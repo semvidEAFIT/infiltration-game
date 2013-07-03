@@ -39,7 +39,7 @@ public class SubmachineGun : Gun {
 			}
 		}
 		//TODO:CAMBIAR POR BALA REAL.
-		GameObject shotBullet = (GameObject)GameObject.Instantiate(bullet, this.owner.transform.forward, this.owner.transform.rotation);
+		GameObject shotBullet = (GameObject)GameObject.Instantiate(bullet, this.owner.transform.position + this.owner.transform.forward, this.owner.transform.rotation);
 		
 		shotBullet.rigidbody.AddForce((this.owner.transform.forward.x + deltaX) * this.shootingForce, 0, (this.owner.transform.forward.z) * this.shootingForce);
 	}
