@@ -1,17 +1,20 @@
 using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
-public class FireTeam : MonoBehaviour {
+public class FireTeam : MonoBehaviour, ICommand {
 	
 	public GameObject[] soldiers;
 	private Point point;
 	private FireTeamState state;
+	private List<Command> commands;
+	private Command lastCommand;
+	
 	
 	public float formation;
 	
 	// Use this for initialization
 	void Start () {
-		
+		commands = new List<Command>();
 	}
 	
 	// Update is called once per frame
@@ -52,5 +55,39 @@ public class FireTeam : MonoBehaviour {
 		} catch {
 			//si no existe mas
 		}
+	}
+	
+	public void AddCommand(Command command){
+		if (!commands.Contains(command)){
+			commands.Add(command);
+			command.AddICommand(this);
+		}
+	}
+	
+	public void ExecuteCommand(){
+		if (commands.Count > 0){
+			lastCommand = commands[0];
+			lastCommand.Start();
+			commands.RemoveAt(0);
+		}
+	}
+
+	public Command LastCommand {
+		get {
+			return this.lastCommand;
+		}
+		set {
+			lastCommand = value;
+		}
+	}
+	
+	public void CommandStarted (Command command)
+	{
+		
+	}
+
+	public void CommandEnded (Command command)
+	{
+		
 	}
 }
