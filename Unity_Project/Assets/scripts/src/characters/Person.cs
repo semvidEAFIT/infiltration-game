@@ -11,15 +11,15 @@ public class Person : MonoBehaviour {
 	public GameObject follow;// se debe popner privado una ves se programe un rehen
 	private CharacterController cc;
 	public float distance;
-	private int healthPoints;
-	public int initialHealth=5;
+	private float healthPoints;
+	public float initialHealth = 5f;
 	
 	// Use this for initialization
 	void Start () {
 		route = new List<Vector3>();
 		destination = Vector3.zero;
 		healthPoints=initialHealth;
-		if(follow!=null){//se quita una ves se programe un rehen
+		if(follow != null){//se quita una vez se programe un rehen
 			destination = follow.transform.position;
 		}
 		cc = GetComponent<CharacterController>();
@@ -27,7 +27,7 @@ public class Person : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(follow == null&&destination ==  Vector3.zero && route.Count > 0){
+		if(follow == null && destination ==  Vector3.zero && route.Count > 0){
 			destination = route[0];
 			route.RemoveAt(0);
 		}else if(destination != Vector3.zero){
@@ -49,7 +49,7 @@ public class Person : MonoBehaviour {
 		
 	}
 	
-	public void TakeDamage(int damage){
+	public void TakeDamage(float damage){
 		healthPoints -= damage;
 		
 		if (healthPoints<=0){
