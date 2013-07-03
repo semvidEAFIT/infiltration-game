@@ -34,23 +34,31 @@ public class FireTeam : MonoBehaviour, ICommand {
 		Vector3 soldier1Tar = target + frontDir*2;
 		Vector3 soldier2Tar = target + (sideDir-frontDir)*4;
 		Vector3 soldier3Tar = target - (sideDir+frontDir)*4;
+		try {
+			soldiers[0].GetComponent<Soldier>().AddWayPoint(soldier1Tar);
+		} catch {
+			//dead
+		}
 		
-		soldiers[0].GetComponent<Soldier>().AddWayPoint(soldier1Tar);
 		try{
 			soldiers[1].GetComponent<Soldier>().AddWayPoint(soldier2Tar);
 		} catch (System.Exception ex) {
-			Debug.LogError(ex.ToString()); //Si esta muerto
+			//Si esta muerto
 		}
 		
 		try{
 			soldiers[2].GetComponent<Soldier>().AddWayPoint(soldier3Tar);
 		} catch (System.Exception ex) {
-			Debug.LogError(ex.ToString());//Si tambien esta muerto
+			//Si tambien esta muerto
 		}
 	}
 	
 	public void MoveInLineFormation (Vector3 target){ //en "fila india"
-		soldiers[0].GetComponent<Soldier>().AddWayPoint(target);
+		try{
+			soldiers[0].GetComponent<Soldier>().AddWayPoint(target);
+		} catch {
+			//dead
+		}
 		try {
 			soldiers[1].GetComponent<Soldier>().Follow = soldiers[0];
 		} catch {
