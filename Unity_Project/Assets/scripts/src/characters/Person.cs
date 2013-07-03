@@ -13,14 +13,14 @@ public class Person : MonoBehaviour {
 	public int initialHealth=5;
 	
 	// Use this for initialization
-	void Start () {
+	public virtual void Start () {
 		route = new List<Vector3>();
 		destination = Vector3.zero;
 		healthPoints=initialHealth;
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	public virtual void Update () {
 		if(destination ==  Vector3.zero && route.Count > 0){
 			destination = route[0];
 			route.RemoveAt(0);
@@ -31,17 +31,17 @@ public class Person : MonoBehaviour {
 			}
 		}
 		
-		if(Input.GetMouseButton(0)){
-			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-      		RaycastHit hit;
-        	if(Physics.Raycast(ray, out hit)){
-				AddWayPoint(hit.point);
-			}
-		}
+//		if(Input.GetMouseButton(0)){
+//			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+//      		RaycastHit hit;
+//        	if(Physics.Raycast(ray, out hit)){
+//				AddWayPoint(hit.point);
+//			}
+//		}
 		
 	}
 	
-	public void takeDamage(int damage){
+	public void TakeDamage(int damage){
 		healthPoints -= damage;
 		
 		if (healthPoints<=0){
