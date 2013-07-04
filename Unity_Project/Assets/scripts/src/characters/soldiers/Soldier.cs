@@ -26,7 +26,7 @@ public class Soldier : Person {
 			Shoot();
 		}
 		if(Input.GetKeyDown(KeyCode.G)){
-			GameObject grenade = GameObject.Instantiate(Resources.Load("Grenade"), this.gameObject.transform.position, this.gameObject.transform.rotation) as GameObject;
+			GameObject grenade = GameObject.Instantiate(Resources.Load("Grenade"), this.gameObject.transform.position + this.gameObject.transform.forward, this.gameObject.transform.rotation) as GameObject;
 			grenade.GetComponent<FragGrenade>().Activate();
 		}
 		if(Input.GetKey(KeyCode.A)){

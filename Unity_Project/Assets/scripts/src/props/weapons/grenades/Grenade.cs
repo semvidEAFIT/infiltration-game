@@ -6,7 +6,7 @@ public abstract class Grenade : Item {
 	public float AOERadius;
 	public float damage;
 	public float time;
-	public float strenght;
+	public float strength;
 	private float timeElapsed;
 
 	void Start(){
@@ -22,11 +22,11 @@ public abstract class Grenade : Item {
 	}
 
 	public override void Activate(){
-		Throw(transform.forward, strenght);
+		Throw(transform.forward, strength);
 	}
 
-	public void Throw(Vector3 direction, float strenght){
-		rigidbody.AddForce(direction * strenght);
+	public void Throw(Vector3 direction, float strength){
+		rigidbody.AddForce(direction * strength);
 	}
 
 	public abstract void Explode();
