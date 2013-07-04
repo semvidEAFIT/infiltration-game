@@ -12,6 +12,8 @@ public class Soldier : Person {
 	public float accuracyDelta;
 	public float shootingForce;
 	
+	public LayerMask allies;
+	
 	// Use this for initialization
 	public override void Start () {
 		base.Start();
@@ -35,6 +37,9 @@ public class Soldier : Person {
 	}
 	
 	private void Shoot(){
-		mainWeapon.Fire();
+		if (!Physics.Raycast(transform.position, transform.forward, Mathf.Infinity, allies.value)) {
+			mainWeapon.Fire();
+		}
+		
 	}
 }
