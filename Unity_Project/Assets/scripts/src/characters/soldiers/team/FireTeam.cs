@@ -9,7 +9,6 @@ public class FireTeam : MonoBehaviour, ICommand {
 	private List<Command> commands;
 	private Command lastCommand;
 	
-	
 	public float formation;
 	
 	// Use this for initialization
@@ -23,7 +22,7 @@ public class FireTeam : MonoBehaviour, ICommand {
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
       		RaycastHit hit;
         	if(Physics.Raycast(ray, out hit)){
-				MoveInArrowFormation(hit.point);
+				MoveInLineFormation(hit.point);
 			}
 		}
 	}
@@ -34,33 +33,62 @@ public class FireTeam : MonoBehaviour, ICommand {
 		Vector3 soldier1Tar = target + frontDir*2;
 		Vector3 soldier2Tar = target + (sideDir-frontDir)*4;
 		Vector3 soldier3Tar = target - (sideDir+frontDir)*4;
+		try {
+			soldiers[0].GetComponent<Soldier>().AddWayPoint(soldier1Tar);
+		} catch {
+			//dead
+		}
 		
-		soldiers[0].GetComponent<Soldier>().AddWayPoint(soldier1Tar);
 		try{
 			soldiers[1].GetComponent<Soldier>().AddWayPoint(soldier2Tar);
 		} catch (System.Exception ex) {
-			Debug.LogError(ex.ToString()); //Si esta muerto
+			//dead
 		}
 		
 		try{
 			soldiers[2].GetComponent<Soldier>().AddWayPoint(soldier3Tar);
 		} catch (System.Exception ex) {
-			Debug.LogError(ex.ToString());//Si tambien esta muerto
+			//dead
 		}
 	}
 	
 	public void MoveInLineFormation (Vector3 target){ //en "fila india"
-		soldiers[0].GetComponent<Soldier>().AddWayPoint(target);
-		try {
-			soldiers[1].GetComponent<Soldier>().Follow = soldiers[0];
-		} catch {
-			//Si lo mataron :(
+		if (soldiers[1]==null && soldiers[2]!=null){
+			soldiers[1]=soldiers[2];
+			soldiers[2]=null;
 		}
-		try {
-			soldiers[2].GetComponent<Soldier>().Follow = soldiers[1];
-		} catch {
-			//si no existe mas
+		if (soldiers[0]==null){
+			if (soldiers[1]==null){
+				if(soldiers[2]==null){
+					//all dead
+				} else {
+					soldiers[0]=soldiers[2];
+					soldiers[2]=null;
+				}
+			} else {
+				soldiers[0]=soldiers[1];
+				if (soldiers[2]==null){
+					soldiers[1]=null;
+				} else {
+					soldiers[1]=soldiers[2];
+					soldiers[2]=null;
+				}
+			}
+		} else {
+			soldiers[0].GetComponent<Soldier>().AddWayPoint(target);
+			try {
+				soldiers[1].GetComponent<Soldier>().Follow = soldiers[0];
+			} catch {
+				//dead
+			}
+			try {
+				soldiers[2].GetComponent<Soldier>().Follow = soldiers[1];
+			} catch {
+				//dead
+			}
 		}
+		
+		
 	}
 	
 	public void AddCommand(Command command){

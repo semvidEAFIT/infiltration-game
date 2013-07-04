@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public abstract class Gun : IItem {
+public abstract class Gun {
 	
 	public GameObject owner;
 	public int maxBullets;
@@ -21,5 +21,5 @@ public abstract class Gun : IItem {
 		this.shootingForce = gunShootingForce;
 	}
 	
-	public abstract void Activate();
+	public abstract void Fire();
 }

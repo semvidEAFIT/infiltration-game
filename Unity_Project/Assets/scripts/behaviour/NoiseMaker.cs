@@ -19,13 +19,13 @@ public class NoiseMaker : MonoBehaviour {
 		}
 	}
 	
-	void MakeNoise(){
+	public void MakeNoise(){
 		MakeNoise(defaultRadius);
 	}
 	
 	void Update(){
-		if(Input.GetKeyDown(KeyCode.Space)){
-			MakeNoise();
-		}
+//		if(Input.GetKeyDown(KeyCode.Space)){
+//			MakeNoise();
+//		}
 	}
 }
