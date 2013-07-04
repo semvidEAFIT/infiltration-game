@@ -41,7 +41,7 @@ public class SubmachineGun : Gun {
 				//TODO:	OTHERWISE...
 			}
 		}
-
+		owner.gameObject.GetComponent<NoiseMaker>().MakeNoise();
 		owner.gameObject.GetComponent<ParticleSystem>().Play();
 
 	}
