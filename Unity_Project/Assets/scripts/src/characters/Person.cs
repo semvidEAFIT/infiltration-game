@@ -115,5 +115,9 @@ public class Person : MonoBehaviour {
 		yield return new WaitForSeconds(3.0f);
 		renderer.material.color = c;
 	}
+	
+	public void View(RaycastHit[] gs){
+		
+	}
 	#endregion
 }
