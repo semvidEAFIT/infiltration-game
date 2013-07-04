@@ -9,7 +9,6 @@ public class FireTeam : MonoBehaviour, ICommand {
 	private List<Command> commands;
 	private Command lastCommand;
 	
-	
 	public float formation;
 	
 	// Use this for initialization
@@ -43,32 +42,53 @@ public class FireTeam : MonoBehaviour, ICommand {
 		try{
 			soldiers[1].GetComponent<Soldier>().AddWayPoint(soldier2Tar);
 		} catch (System.Exception ex) {
-			//Si esta muerto
+			//dead
 		}
 		
 		try{
 			soldiers[2].GetComponent<Soldier>().AddWayPoint(soldier3Tar);
 		} catch (System.Exception ex) {
-			//Si tambien esta muerto
+			//dead
 		}
 	}
 	
 	public void MoveInLineFormation (Vector3 target){ //en "fila india"
-		try{
+		if (soldiers[1]==null && soldiers[2]!=null){
+			soldiers[1]=soldiers[2];
+			soldiers[2]=null;
+		}
+		if (soldiers[0]==null){
+			if (soldiers[1]==null){
+				if(soldiers[2]==null){
+					//all dead
+				} else {
+					soldiers[0]=soldiers[2];
+					soldiers[2]=null;
+				}
+			} else {
+				soldiers[0]=soldiers[1];
+				if (soldiers[2]==null){
+					soldiers[1]=null;
+				} else {
+					soldiers[1]=soldiers[2];
+					soldiers[2]=null;
+				}
+			}
+		} else {
 			soldiers[0].GetComponent<Soldier>().AddWayPoint(target);
-		} catch {
-			//dead
+			try {
+				soldiers[1].GetComponent<Soldier>().Follow = soldiers[0];
+			} catch {
+				//dead
+			}
+			try {
+				soldiers[2].GetComponent<Soldier>().Follow = soldiers[1];
+			} catch {
+				//dead
+			}
 		}
-		try {
-			soldiers[1].GetComponent<Soldier>().Follow = soldiers[0];
-		} catch {
-			//Si lo mataron :(
-		}
-		try {
-			soldiers[2].GetComponent<Soldier>().Follow = soldiers[1];
-		} catch {
-			//si no existe mas
-		}
+		
+		
 	}
 	
 	public void AddCommand(Command command){
