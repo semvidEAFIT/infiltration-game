@@ -31,5 +31,8 @@ public class Soldier : Person {
 	
 	private void Shoot(){
 		mainWeapon.Activate();
+		
+		//testing
+		this.gameObject.GetComponent<NoiseMaker>().MakeNoise();
 	}
 }
