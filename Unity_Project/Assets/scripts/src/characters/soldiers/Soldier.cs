@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class Soldier : Person {
 	
-	private List<IItem> items;
+	public List<Item> items;
 	private Gun mainWeapon;
 	public int maxGunAmmo;
 	public int initialGunMags;
@@ -21,8 +21,12 @@ public class Soldier : Person {
 	// Update is called once per frame
 	public override void Update () {
 		base.Update();
+		//FOR TESTING PURPOSES.
 		if(Input.GetKeyDown(KeyCode.Space)){
 			Shoot();
+		}
+		if(Input.GetKeyDown(KeyCode.G)){
+			
 		}
 		if(Input.GetKey(KeyCode.A)){
 			transform.Translate(new Vector3(1, 0, 0));
@@ -31,7 +35,6 @@ public class Soldier : Person {
 	
 	private void Shoot(){
 		mainWeapon.Fire();
-		this.gameObject.GetComponent<ParticleSystem>().Play();
 		
 		//testing
 		this.gameObject.GetComponent<NoiseMaker>().MakeNoise();

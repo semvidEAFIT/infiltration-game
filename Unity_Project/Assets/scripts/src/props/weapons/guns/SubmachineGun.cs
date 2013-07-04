@@ -41,7 +41,8 @@ public class SubmachineGun : Gun {
 				//TODO:	OTHERWISE...
 			}
 		}
-		//TODO: PARTICULAS DEL ARMA DISPARANDO
+		
+		owner.gameObject.GetComponent<ParticleSystem>().Play();
 		
 	}
 }
