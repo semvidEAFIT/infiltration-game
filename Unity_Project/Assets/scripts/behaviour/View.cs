@@ -1,10 +1,8 @@
 using UnityEngine;
 using System.Collections;
 
-public class NewBehaviourScript : MonoBehaviour {
-	
-	public FireTeam fireTeam;
-	
+public class View : MonoBehaviour {
+
 	// Use this for initialization
 	void Start () {
 	
