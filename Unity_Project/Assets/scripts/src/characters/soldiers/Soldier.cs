@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class Soldier : Person {
 	
 	public List<Item> items;
-	private IItem mainWeapon;
+	private Gun mainWeapon;
 	public int maxGunAmmo;
 	public int initialGunMags;
 	public float bulletDamage;
@@ -26,7 +26,8 @@ public class Soldier : Person {
 			Shoot();
 		}
 		if(Input.GetKeyDown(KeyCode.G)){
-			
+			GameObject grenade = GameObject.Instantiate(Resources.Load("Grenade"), this.gameObject.transform.position, this.gameObject.transform.rotation) as GameObject;
+			grenade.GetComponent<FragGrenade>().Activate();
 		}
 		if(Input.GetKey(KeyCode.A)){
 			transform.Translate(new Vector3(1, 0, 0));
@@ -34,6 +35,6 @@ public class Soldier : Person {
 	}
 	
 	private void Shoot(){
-		mainWeapon.Activate();
+		mainWeapon.Fire();
 	}
 }
