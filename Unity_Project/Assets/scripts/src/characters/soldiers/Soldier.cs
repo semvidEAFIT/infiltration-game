@@ -31,6 +31,7 @@ public class Soldier : Person {
 	
 	private void Shoot(){
 		mainWeapon.Fire();
+		this.gameObject.GetComponent<ParticleSystem>().Play();
 		
 		//testing
 		this.gameObject.GetComponent<NoiseMaker>().MakeNoise();
