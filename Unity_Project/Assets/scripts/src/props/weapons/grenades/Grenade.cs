@@ -15,7 +15,6 @@ public abstract class Grenade : Item {
 
 	void Update(){
 		timeElapsed += Time.deltaTime;
-		Debug.Log(timeElapsed);
 		if(timeElapsed >= time){
 			Explode();
 		}
