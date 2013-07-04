@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class Soldier : Person {
 	
 	private List<IItem> items;
-	private IItem mainWeapon;
+	private Gun mainWeapon;
 	public int maxGunAmmo;
 	public int initialGunMags;
 	public float bulletDamage;
@@ -30,7 +30,7 @@ public class Soldier : Person {
 	}
 	
 	private void Shoot(){
-		mainWeapon.Activate();
+		mainWeapon.Fire();
 		
 		//testing
 		this.gameObject.GetComponent<NoiseMaker>().MakeNoise();
