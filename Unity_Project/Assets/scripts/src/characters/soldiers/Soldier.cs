@@ -28,8 +28,12 @@ public class Soldier : Person {
 			Shoot();
 		}
 		if(Input.GetKeyDown(KeyCode.G)){
-			GameObject grenade = GameObject.Instantiate(Resources.Load("Grenade"), this.gameObject.transform.position + this.gameObject.transform.forward, this.gameObject.transform.rotation) as GameObject;
+			GameObject grenade = GameObject.Instantiate(Resources.Load("fragGrenade"), this.gameObject.transform.position + this.gameObject.transform.forward, this.gameObject.transform.rotation) as GameObject;
 			grenade.GetComponent<FragGrenade>().Activate();
+		}
+		if(Input.GetKeyDown(KeyCode.F)){
+			GameObject grenade = GameObject.Instantiate(Resources.Load("flashGrenade"), this.gameObject.transform.position + this.gameObject.transform.forward, this.gameObject.transform.rotation) as GameObject;
+			grenade.GetComponent<Flashbang>().Activate();
 		}
 		if(Input.GetKey(KeyCode.A)){
 			transform.Translate(new Vector3(1, 0, 0));
