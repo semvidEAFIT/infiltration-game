@@ -2,26 +2,29 @@ using UnityEngine;
 using System.Collections;
 
 public class SubmachineGun : Gun {
-	
-	private GameObject bullet;	
-	
+
+	private int bulletsInBurst = 3;
+
 	public SubmachineGun(GameObject ownerGameObject, int maxGunAmmo, int gunMagsLeft, float bulletDamage, float accuracyDelta, float shootingForce) : base(ownerGameObject, maxGunAmmo, gunMagsLeft, bulletDamage, accuracyDelta, shootingForce) {
-		bullet = Resources.Load("bullet") as GameObject;
+
 	}
-	
-	public override void Activate(){
-		if(bulletsLeft > 0){
-			InstantiateBullet();
-		} else if(magsLeft > 0) {
-			magsLeft--;
-			bulletsLeft = maxBullets;
+
+	public override void Fire(){
+		for (int i=0; i < bulletsInBurst && bulletsLeft > 0; i++){
 			InstantiateBullet();
 		}
-		else{
-			//TODO: NOTIFICAR QUE NO HAY BALAS.
+
+		if(bulletsLeft <= 0){
+			if (magsLeft > 0){
+				magsLeft--;
+				bulletsLeft = maxBullets;
+			} else {
+				//TODO: NOTIFICAR QUE NO HAY BALAS.
+			}
+
 		}
 	}
-	
+
 	private void InstantiateBullet(){
 		bulletsLeft--;
 		float angleDelta = Random.Range(-this.accuracyDelta, this.accuracyDelta) * Mathf.Deg2Rad;
@@ -38,9 +41,8 @@ public class SubmachineGun : Gun {
 				//TODO:	OTHERWISE...
 			}
 		}
-		//TODO:CAMBIAR POR BALA REAL.
-		GameObject shotBullet = (GameObject)GameObject.Instantiate(bullet, this.owner.transform.position + this.owner.transform.forward, this.owner.transform.rotation);
-		
-		shotBullet.rigidbody.AddForce((this.owner.transform.forward.x + deltaX) * this.shootingForce, 0, (this.owner.transform.forward.z) * this.shootingForce);
+
+		owner.gameObject.GetComponent<ParticleSystem>().Play();
+
 	}
 }

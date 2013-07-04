@@ -13,7 +13,7 @@ public class NoiseMaker : MonoBehaviour {
 				Person p = hit.transform.gameObject.GetComponent<Person>();
 				if(p != null){
 					p.HearNoise(gameObject);
-					Debug.Log((p.transform.position - transform.position).sqrMagnitude);
+					//Debug.Log((p.transform.position - transform.position).sqrMagnitude);
 				}
 			}
 		}
