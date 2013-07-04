@@ -6,22 +6,27 @@ public abstract class Grenade : Item {
 	public float AOERadius;
 	public float damage;
 	public float time;
-	public float throwDistance;
+	public float strenght;
 	private float timeElapsed;
 	
-	public virtual void Start(){
+	void Start(){
 		timeElapsed = 0f;
 	}
 	
-	public virtual void Update(){
+	void Update(){
 		timeElapsed += Time.deltaTime;
+		Debug.Log(timeElapsed);
 		if(timeElapsed >= time){
 			Explode();
 		}
 	}
 	
-	public virtual void Activate(){
-		rigidbody.AddForce(transform.forward.x, 0, transform.forward.z);
+	public override void Activate(){
+		Throw(transform.forward, strenght);
+	}
+	
+	public void Throw(Vector3 direction, float strenght){
+		rigidbody.AddForce(direction * strenght);
 	}
 	
 	public abstract void Explode();
