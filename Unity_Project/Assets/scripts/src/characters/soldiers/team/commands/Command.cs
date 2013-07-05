@@ -27,7 +27,7 @@ public abstract class Command {
 		}
 	}
 	
-	void NotifyCommandEnded(){
+	public void NotifyCommandEnded(){
 	foreach (ICommand c in commandListeners){
 			c.CommandEnded(this);
 		}

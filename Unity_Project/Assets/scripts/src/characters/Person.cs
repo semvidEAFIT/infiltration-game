@@ -9,7 +9,7 @@ public class Person : MonoBehaviour {
 	private Vector3 destination;
 	private List<Vector3> last;
 	public float speed;
-	public GameObject follow;// se debe popner privado una ves se programe un rehen
+	public GameObject follow;// se debe popner privado una vez se programe un rehen
 	private CharacterController cc;
 	public float distance;
 	private float healthPoints;
