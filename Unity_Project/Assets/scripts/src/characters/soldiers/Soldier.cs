@@ -27,13 +27,11 @@ public class Soldier : Person {
 		if(Input.GetKeyDown(KeyCode.Space)){
 			Shoot();
 		}
-		if(Input.GetKeyDown(KeyCode.G)){
-			GameObject grenade = GameObject.Instantiate(Resources.Load("fragGrenade"), this.gameObject.transform.position + this.gameObject.transform.forward, this.gameObject.transform.rotation) as GameObject;
-			grenade.GetComponent<FragGrenade>().Activate();
-		}
+//		if(Input.GetKeyDown(KeyCode.G)){
+//			ThrowFragGrenade();
+//		}
 		if(Input.GetKeyDown(KeyCode.F)){
-			GameObject grenade = GameObject.Instantiate(Resources.Load("flashGrenade"), this.gameObject.transform.position + this.gameObject.transform.forward, this.gameObject.transform.rotation) as GameObject;
-			grenade.GetComponent<Flashbang>().Activate();
+			ThrowFlashbang();
 		}
 		if(Input.GetKey(KeyCode.A)){
 			transform.Translate(new Vector3(1, 0, 0));
@@ -44,6 +42,16 @@ public class Soldier : Person {
 		if (!Physics.Raycast(transform.position, transform.forward, Mathf.Infinity, allies.value)) {
 			mainWeapon.Fire();
 		}
+	}
+	
+	public void ThrowFragGrenade(){
+		GameObject fragGrenade = GameObject.Instantiate(Resources.Load("fragGrenade"), this.gameObject.transform.position + this.gameObject.transform.forward, this.gameObject.transform.rotation) as GameObject;
+		fragGrenade.GetComponent<FragGrenade>().Activate();
+	}
+	
+	public void ThrowFlashbang(){
+		GameObject flashbang = GameObject.Instantiate(Resources.Load("flashGrenade"), this.gameObject.transform.position + this.gameObject.transform.forward, this.gameObject.transform.rotation) as GameObject;
+		flashbang.GetComponent<Flashbang>().Activate();
 	}
 	
 	public virtual void Blind(float blindForSeconds){

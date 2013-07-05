@@ -14,6 +14,7 @@ public class FireTeam : MonoBehaviour, ICommand {
 	// Use this for initialization
 	void Start () {
 		commands = new List<Command>();
+		//Go ();
 	}
 	
 	// Update is called once per frame
@@ -22,9 +23,16 @@ public class FireTeam : MonoBehaviour, ICommand {
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
       		RaycastHit hit;
         	if(Physics.Raycast(ray, out hit)){
-				MoveInLineFormation(hit.point);
+				AddCommand(new MoveCommand(this, hit.point));
+				//MoveInLineFormation(hit.point);
+//				AddCommand(new FragGrenadeCommand(this));
+				ExecuteCommand();
 			}
 		}
+	}
+	
+	public void Go(){
+		ExecuteCommand();
 	}
 	
 	public void MoveInArrowFormation(Vector3 target){ //en cuña
@@ -87,8 +95,6 @@ public class FireTeam : MonoBehaviour, ICommand {
 				//dead
 			}
 		}
-		
-		
 	}
 	
 	public void AddCommand(Command command){
@@ -102,6 +108,7 @@ public class FireTeam : MonoBehaviour, ICommand {
 		if (commands.Count > 0){
 			lastCommand = commands[0];
 			lastCommand.Start();
+			CommandStarted(lastCommand);
 			commands.RemoveAt(0);
 		}
 	}
