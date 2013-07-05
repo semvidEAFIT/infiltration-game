@@ -7,6 +7,7 @@ public abstract class Grenade : Item {
 	public float damage;
 	public float time;
 	public float strength;
+	public LayerMask layerAffected;
 	private float timeElapsed;
 
 	void Start(){

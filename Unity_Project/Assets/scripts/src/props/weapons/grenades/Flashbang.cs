@@ -4,7 +4,7 @@ using System.Collections;
 public class Flashbang : Grenade {
 
 	public override void Explode(){
-		Collider [] hitColliders = Physics.OverlapSphere(transform.position, AOERadius);
+		Collider [] hitColliders = Physics.OverlapSphere(transform.position, AOERadius, layerAffected);
         
         foreach (Collider c in hitColliders) {
 			try{

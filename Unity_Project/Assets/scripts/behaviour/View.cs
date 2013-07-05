@@ -16,8 +16,9 @@ public class View : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		RaycastHit[] hits = Physics.SphereCastAll(new Ray(transform.position, transform.forward), CalculateRadius(), maxDistance, layer);
+		RaycastHit[] hits = Physics.SphereCastAll( new Ray(transform.position, transform.forward), CalculateRadius(), maxDistance);
 		if(hits.Length > 0){
+			//Debug.Log("Hit something.");
 			List<RaycastHit> hitsInView = new List<RaycastHit>();
 			foreach(RaycastHit hit in hits){
 				RaycastHit check;
@@ -29,7 +30,9 @@ public class View : MonoBehaviour {
 			}
 			
 			if(hitsInView.Count > 0){
-				
+				foreach(RaycastHit hit in hitsInView){
+					//Debug.Log("-'Who's there?' " + "\n-'Just me, the one at " + hit.collider.transform.position + " '");
+				}
 			}
 		}
 	}
