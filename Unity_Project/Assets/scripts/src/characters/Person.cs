@@ -116,7 +116,7 @@ public class Person : MonoBehaviour {
 		renderer.material.color = c;
 	}
 	
-	public void View(RaycastHit[] gs){
+	public virtual void View(RaycastHit[] gs){
 		
 	}
 	#endregion
