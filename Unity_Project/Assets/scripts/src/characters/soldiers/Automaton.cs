@@ -12,4 +12,8 @@ public class Automaton : Soldier {
 	void Update () {
 	
 	}
+	
+	public override void Blind(float blindForSeconds){
+		//Debug.Log("AH! I'M A BLIND TERRORIST!");	
+	}
 }

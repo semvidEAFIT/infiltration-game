@@ -44,6 +44,9 @@ public class Soldier : Person {
 		if (!Physics.Raycast(transform.position, transform.forward, Mathf.Infinity, allies.value)) {
 			mainWeapon.Fire();
 		}
-		
+	}
+	
+	public virtual void Blind(float blindForSeconds){
+		//Debug.Log("AH! I'M A BLIND SOLDIER!");
 	}
 }
