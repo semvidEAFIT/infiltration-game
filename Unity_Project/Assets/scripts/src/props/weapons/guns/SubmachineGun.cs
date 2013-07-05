@@ -4,9 +4,12 @@ using System.Collections;
 public class SubmachineGun : Gun {
 
 	private int bulletsInBurst = 3;
+	private float bulletSpeed = 1;
+	
+	private GameObject bullet;
 
 	public SubmachineGun(GameObject ownerGameObject, int maxGunAmmo, int gunMagsLeft, float bulletDamage, float accuracyDelta, float shootingForce) : base(ownerGameObject, maxGunAmmo, gunMagsLeft, bulletDamage, accuracyDelta, shootingForce) {
-
+		bullet = Resources.Load("bullet") as GameObject;
 	}
 
 	public override void Fire(){
@@ -29,7 +32,8 @@ public class SubmachineGun : Gun {
 		bulletsLeft--;
 		float angleDelta = Random.Range(-this.accuracyDelta, this.accuracyDelta) * Mathf.Deg2Rad;
 		float deltaX = Mathf.Sin(angleDelta);
-		Ray ray = new Ray(this.owner.transform.position + this.owner.transform.forward, new Vector3(this.owner.transform.forward.x + deltaX, 0, this.owner.transform.forward.z));
+		Vector3 dir = new Vector3(this.owner.transform.forward.x + deltaX, 0, this.owner.transform.forward.z);
+		Ray ray = new Ray(this.owner.transform.position + this.owner.transform.forward, dir);
   		RaycastHit hit;
 		//TODO: IMPLEMENTAR DISTANCIA DE BALAS (TERCER PARAMETRO EN RAYCAST)
     	if(Physics.Raycast(ray, out hit)){
@@ -42,7 +46,9 @@ public class SubmachineGun : Gun {
 			}
 		}
 		owner.gameObject.GetComponent<NoiseMaker>().MakeNoise();
-		owner.gameObject.GetComponent<ParticleSystem>().Play();
+		
+		ParticleSystem particleSystem = owner.gameObject.GetComponent<ParticleSystem>();
+		particleSystem.Emit(1);
 
 	}
 }
