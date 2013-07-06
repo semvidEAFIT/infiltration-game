@@ -1,13 +1,10 @@
 using UnityEngine;
 using System.Collections;
 
-public abstract class Grenade : Item {
+public abstract class Grenade : Explosive {
 
-	public float AOERadius;
-	public float damage;
 	public float time;
 	public float strength;
-	public LayerMask layerAffected;
 	private float timeElapsed;
 
 	void Start(){
@@ -29,5 +26,5 @@ public abstract class Grenade : Item {
 		rigidbody.AddForce(direction * strength);
 	}
 
-	public abstract void Explode();
+	public override abstract void Explode();
 }
