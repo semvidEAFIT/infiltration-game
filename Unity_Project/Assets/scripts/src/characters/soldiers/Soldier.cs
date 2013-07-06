@@ -12,12 +12,13 @@ public class Soldier : Person {
 	public float accuracyDelta;
 	public float shootingForce;
 	
-	public LayerMask allies;
+	public string alliesTag;
 	
 	// Use this for initialization
 	public override void Start () {
 		base.Start();
 		mainWeapon = new SubmachineGun(this.gameObject, maxGunAmmo, initialGunMags, bulletDamage, accuracyDelta, shootingForce);
+		alliesTag = gameObject.tag;
 	}
 	
 	// Update is called once per frame
@@ -39,7 +40,9 @@ public class Soldier : Person {
 	}
 	
 	private void Shoot(){
-		if (!Physics.Raycast(transform.position, transform.forward, Mathf.Infinity, allies.value)) {
+		Ray ray = new Ray(transform.position, transform.forward);
+		RaycastHit hit;
+		if(Physics.Raycast(ray, out hit) && hit.collider.gameObject.tag!=alliesTag){
 			mainWeapon.Fire();
 		}
 	}
