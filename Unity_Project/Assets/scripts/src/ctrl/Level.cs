@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class Level : MonoBehaviour {
 	
-	
 	private List<Nodo> nodos;
 	private static Level instance;
 	
@@ -15,6 +14,7 @@ public class Level : MonoBehaviour {
 	}
 	
 	private int objectiveCount;
+	private Grid grid;
 	
 	void Awake(){
 		if (instance == null) {
@@ -26,27 +26,22 @@ public class Level : MonoBehaviour {
         }
 		
 		objectiveCount=0;
-		
+	}
+	
+	void Start(){
+		MakeGrid(); //Luego de que todos los nodos se incialicen, no mover.
+	}
+
+	void MakeGrid ()
+	{
 		nodos = new List<Nodo>();
 		GameObject[] gNodo = GameObject.FindGameObjectsWithTag("Nodo");
 		foreach(GameObject g in gNodo){
 			nodos.Add(g.GetComponent<Nodo>());	
 		}
-		List<Nodo> unSeen = new List<Nodo>(nodos);
-		foreach(Nodo n in nodos){
-			unSeen.Remove(n);
-			n.FindNeighbors(unSeen);
-		}
+		
+		this.grid = new Grid(nodos);
 	}
-	
-	// Use this for initialization
-	void Start () {
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	}
-	
 	
 	public void AddObjective(){
 		objectiveCount++;

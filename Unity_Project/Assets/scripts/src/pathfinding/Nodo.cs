@@ -4,7 +4,11 @@ using System.Collections.Generic;
 
 public class Nodo : MonoBehaviour{
 	
-	public List<Nodo> neighbors;
+	private List<Nodo> neighbors;
+	
+	void Awake(){
+		this.neighbors = new List<Nodo>();
+	}
 	
 	public void FindNeighbors(List<Nodo> nodos){
 		foreach (Nodo n in nodos){
