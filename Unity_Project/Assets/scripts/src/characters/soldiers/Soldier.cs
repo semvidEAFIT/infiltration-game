@@ -46,12 +46,27 @@ public class Soldier : Person {
 	
 	public void ThrowFragGrenade(){
 		GameObject fragGrenade = GameObject.Instantiate(Resources.Load("fragGrenade"), this.gameObject.transform.position + this.gameObject.transform.forward, this.gameObject.transform.rotation) as GameObject;
-		fragGrenade.GetComponent<FragGrenade>().Activate();
+		fragGrenade.GetComponent<FragGrenade>().Use();
 	}
 	
 	public void ThrowFlashbang(){
 		GameObject flashbang = GameObject.Instantiate(Resources.Load("flashGrenade"), this.gameObject.transform.position + this.gameObject.transform.forward, this.gameObject.transform.rotation) as GameObject;
-		flashbang.GetComponent<Flashbang>().Activate();
+		flashbang.GetComponent<Flashbang>().Use();
+	}
+	
+	public void PlantC4(){
+		GameObject c4 = GameObject.Instantiate(Resources.Load("c4"), this.gameObject.transform.position + this.gameObject.transform.forward, this.gameObject.transform.rotation) as GameObject;
+		c4.GetComponent<C4>().Use();
+	}
+	
+	public void PlantMine(){
+		GameObject mine = GameObject.Instantiate(Resources.Load("mine"), this.gameObject.transform.position + this.gameObject.transform.forward, this.gameObject.transform.rotation) as GameObject;
+		mine.GetComponent<Mine>().Use();
+	}
+	
+	public void PlantClaymore(){
+		GameObject claymore = GameObject.Instantiate(Resources.Load("claymore"), this.gameObject.transform.position + this.gameObject.transform.forward, this.gameObject.transform.rotation) as GameObject;
+		claymore.GetComponent<Claymore>().Use();
 	}
 	
 	public virtual void Blind(float blindForSeconds){

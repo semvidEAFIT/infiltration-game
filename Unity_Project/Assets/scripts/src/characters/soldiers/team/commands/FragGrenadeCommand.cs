@@ -3,15 +3,12 @@ using System.Collections;
 
 public class FragGrenadeCommand : Command {
 	
-	private FireTeam fireTeam;
-	
 	public FragGrenadeCommand(FireTeam executor) : base(executor){
-		this.fireTeam = executor;
 	}
 	
 	protected override void Execute ()
 	{
-		fireTeam.soldiers[0].GetComponent<Soldier>().ThrowFragGrenade();
+		this.FireTeam.soldiers[0].GetComponent<Soldier>().ThrowFragGrenade();
 		NotifyCommandEnded();
 	}
 	

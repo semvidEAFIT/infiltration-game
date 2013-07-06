@@ -13,7 +13,7 @@ public abstract class Explosive : Item {
 	void Update(){
 	}
 
-	public override void Activate(){
+	public override void Use(){
 	}
 
 	public abstract void Explode();

@@ -1,14 +1,14 @@
 using UnityEngine;
 using System.Collections;
 
-public class FlashbangCommand : Command {
-	
-	public FlashbangCommand(FireTeam executor) : base(executor){
+public class MineCommand : Command {
+
+	public MineCommand(FireTeam executor) : base(executor){
 	}
 	
 	protected override void Execute ()
 	{
-		this.FireTeam.soldiers[0].GetComponent<Soldier>().ThrowFlashbang();
+		this.FireTeam.soldiers[0].GetComponent<Soldier>().PlantMine();
 		NotifyCommandEnded();
 	}
 	

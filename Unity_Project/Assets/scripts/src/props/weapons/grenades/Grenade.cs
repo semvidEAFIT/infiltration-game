@@ -18,7 +18,7 @@ public abstract class Grenade : Explosive {
 		}
 	}
 
-	public override void Activate(){
+	public override void Use(){
 		Throw(transform.forward, strength);
 	}
 
