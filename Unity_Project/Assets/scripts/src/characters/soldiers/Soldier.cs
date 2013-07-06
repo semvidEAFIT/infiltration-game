@@ -38,6 +38,12 @@ public class Soldier : Person {
 		}
 	}
 	
+	void OnControllerColliderHit(ControllerColliderHit hit){
+		if(hit.collider.gameObject.tag.Equals("Intel")){
+			getIntel(hit.collider.gameObject);
+		}
+	}
+	
 	private void Shoot(){
 		if (!Physics.Raycast(transform.position, transform.forward, Mathf.Infinity, allies.value)) {
 			mainWeapon.Fire();
@@ -67,6 +73,10 @@ public class Soldier : Person {
 	public void PlantClaymore(){
 		GameObject claymore = GameObject.Instantiate(Resources.Load("claymore"), this.gameObject.transform.position + this.gameObject.transform.forward, this.gameObject.transform.rotation) as GameObject;
 		claymore.GetComponent<Claymore>().Use();
+	}
+	
+	public void getIntel(GameObject intel){
+		GameObject.Destroy(intel);
 	}
 	
 	public virtual void Blind(float blindForSeconds){
