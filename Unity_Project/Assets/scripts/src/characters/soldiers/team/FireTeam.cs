@@ -22,7 +22,7 @@ public class FireTeam : MonoBehaviour, ICommand {
 		if(Input.GetMouseButton(0)){
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
       		RaycastHit hit;
-        	if(Physics.Raycast(ray, out hit)){
+        	if(Physics.Raycast(ray, out hit) && hit.collider.gameObject.layer==9){
 				AddCommand(new MoveCommand(this, hit.point));
 				//MoveInLineFormation(hit.point);
 				ExecuteCommand();
