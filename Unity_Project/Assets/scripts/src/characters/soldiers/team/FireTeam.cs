@@ -25,9 +25,24 @@ public class FireTeam : MonoBehaviour, ICommand {
         	if(Physics.Raycast(ray, out hit) && hit.collider.gameObject.layer==9){
 				AddCommand(new MoveCommand(this, hit.point));
 				//MoveInLineFormation(hit.point);
-//				AddCommand(new FragGrenadeCommand(this));
 				ExecuteCommand();
 			}
+		}
+		//TODO: For testing purposes.
+		if(Input.GetKeyDown(KeyCode.G)){
+			AddCommand(new FragGrenadeCommand(this));
+		}
+		if(Input.GetKeyDown(KeyCode.F)){
+			AddCommand(new FlashbangCommand(this));
+		}
+		if(Input.GetKeyDown(KeyCode.M)){
+			AddCommand(new MineCommand(this));
+		}
+		if(Input.GetKeyDown(KeyCode.E)){
+			AddCommand(new C4Command(this));
+		}
+		if(Input.GetKeyDown(KeyCode.C)){
+			AddCommand(new ClaymoreCommand(this));
 		}
 	}
 	
