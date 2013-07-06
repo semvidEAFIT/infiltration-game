@@ -12,7 +12,7 @@ public class Soldier : Person {
 	public float accuracyDelta;
 	public float shootingForce;
 	
-	public string alliesTag;
+	private string alliesTag;
 	
 	// Use this for initialization
 	public override void Start () {
@@ -36,6 +36,12 @@ public class Soldier : Person {
 		}
 		if(Input.GetKey(KeyCode.A)){
 			transform.Translate(new Vector3(1, 0, 0));
+		}
+	}
+	
+	void OnControllerColliderHit(ControllerColliderHit hit){
+		if(hit.collider.gameObject.tag.Equals("Intel")){
+			getIntel(hit.collider.gameObject);
 		}
 	}
 	
@@ -70,6 +76,10 @@ public class Soldier : Person {
 	public void PlantClaymore(){
 		GameObject claymore = GameObject.Instantiate(Resources.Load("claymore"), this.gameObject.transform.position + this.gameObject.transform.forward, this.gameObject.transform.rotation) as GameObject;
 		claymore.GetComponent<Claymore>().Use();
+	}
+	
+	public void getIntel(GameObject intel){
+		GameObject.Destroy(intel);
 	}
 	
 	public virtual void Blind(float blindForSeconds){

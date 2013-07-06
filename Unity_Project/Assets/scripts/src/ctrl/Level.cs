@@ -22,7 +22,7 @@ public class Level : MonoBehaviour {
             Destroy(this.gameObject);
         }
 		
-		objectiveCount=0;
+		objectiveCount = 0;
 	}
 	
 	// Use this for initialization
