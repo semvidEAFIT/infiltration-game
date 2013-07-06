@@ -12,6 +12,8 @@ public class Soldier : Person {
 	public float accuracyDelta;
 	public float shootingForce;
 	
+	public AudioClip[] burstfireSounds;
+	
 	private string alliesTag;
 	
 	// Use this for initialization
@@ -28,9 +30,9 @@ public class Soldier : Person {
 		if(Input.GetKeyDown(KeyCode.Space)){
 			Shoot();
 		}
-//		if(Input.GetKeyDown(KeyCode.G)){
-//			ThrowFragGrenade();
-//		}
+		if(Input.GetKeyDown(KeyCode.G)){
+			ThrowFragGrenade();
+		}
 		if(Input.GetKeyDown(KeyCode.F)){
 			ThrowFlashbang();
 		}
@@ -84,5 +86,9 @@ public class Soldier : Person {
 	
 	public virtual void Blind(float blindForSeconds){
 		//Debug.Log("AH! I'M A BLIND SOLDIER!");
+	}
+	
+	public void playShootSound(){
+		this.gameObject.GetComponent<AudioSource>().PlayOneShot(burstfireSounds[Random.Range(0,burstfireSounds.Length)]);
 	}
 }
