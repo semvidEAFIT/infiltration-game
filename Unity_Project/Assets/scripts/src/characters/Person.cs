@@ -117,7 +117,9 @@ public class Person : MonoBehaviour {
 	}
 	
 	public virtual void View(RaycastHit[] gs){
-		
+		foreach(RaycastHit hit in gs){
+			Debug.DrawRay(transform.position, (hit.transform.position-transform.position).normalized * 20, Color.red);
+		}		
 	}
 	#endregion
 }
