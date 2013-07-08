@@ -7,7 +7,9 @@ public class Door : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+		if(locked){
+			renderer.material.color = Color.red;
+		}
 	}
 	
 	// Update is called once per frame
@@ -16,7 +18,8 @@ public class Door : MonoBehaviour {
 	}
 	
 	void OnDestroy(){
-		
+		//TODO: Play "DestroyedDoor" animation?
+		renderer.material.color = Color.green;
 	}
 	
 	public void Open(){
