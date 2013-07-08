@@ -9,10 +9,6 @@ public class Claymore : Explosive {
 		activated = false;
 	}
 	
-	void Update () {
-	
-	}
-	
 	public override void Use(){
 		StartCoroutine("Arm");
 		//TODO: Cuadrar para donde mirara la claymore al ponerla?
@@ -23,7 +19,7 @@ public class Claymore : Explosive {
 		activated = true;
 	}
 	
-	public override void Explode(){
+	protected override void Explode(){
 		Collider [] hitColliders = Physics.OverlapSphere(transform.position, AOERadius, layerAffected);
         foreach (Collider c in hitColliders) {
             c.GetComponent<Person>().TakeDamage(damage);
