@@ -30,15 +30,18 @@ public class Soldier : Person {
 		if(Input.GetKeyDown(KeyCode.Space)){
 			Shoot();
 		}
-		if(Input.GetKeyDown(KeyCode.G)){
-			ThrowFragGrenade();
-		}
-		if(Input.GetKeyDown(KeyCode.F)){
-			ThrowFlashbang();
-		}
-		if(Input.GetKey(KeyCode.A)){
-			transform.Translate(new Vector3(1, 0, 0));
-		}
+//		if(Input.GetKeyDown(KeyCode.G)){
+//			ThrowFragGrenade();
+//		}
+//		if(Input.GetKeyDown(KeyCode.F)){
+//			ThrowFlashbang();
+//		}
+//		if(Input.GetKeyDown(KeyCode.C)){
+//			PlantC4();
+//		}
+//		if(Input.GetKey(KeyCode.A)){
+//			transform.Translate(new Vector3(1, 0, 0));
+//		}
 	}
 	
 	void OnControllerColliderHit(ControllerColliderHit hit){

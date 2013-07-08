@@ -19,13 +19,13 @@ public class Mine : Explosive {
 	public override void Use(){
 		StartCoroutine("Arm");
 	}
-
-	public override void Explode (){
+	
+	public override void Explode(){
 		Collider [] hitColliders = Physics.OverlapSphere(transform.position, AOERadius, layerAffected);
         foreach (Collider c in hitColliders) {
             c.GetComponent<Person>().TakeDamage(damage);
         }
-		Destroy(this.gameObject);
+		Destroy(this.gameObject);	
 	}
 	
 	public void Deactivate(){

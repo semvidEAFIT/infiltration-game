@@ -28,6 +28,9 @@ public class FireTeam : MonoBehaviour, ICommand {
 				ExecuteCommand();
 			}
 		}
+		if(Input.GetMouseButton(1)){
+			ExecuteCommand();
+		}
 		//TODO: For testing purposes.
 		if(Input.GetKeyDown(KeyCode.G)){
 			AddCommand(new FragGrenadeCommand(this));

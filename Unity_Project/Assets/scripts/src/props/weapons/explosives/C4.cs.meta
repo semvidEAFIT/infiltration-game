@@ -2,7 +2,8 @@ fileFormatVersion: 2
 guid: f78bb10f8aeca46469b8cacc36fbcdc3
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - useSound: {fileID: 8300000, guid: 6acb21bc24155ca45a0a52b54254ee32, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
