@@ -8,11 +8,10 @@ public abstract class Grenade : Explosive {
 	private float timeElapsed;
 	
 	void Start(){
-		timeElapsed = 0f;
+		timeElapsed = 0.0f;
 	}
 
 	void Update(){
-		base.Update();
 		timeElapsed += Time.deltaTime;
 		if(timeElapsed >= time){
 			Explode();
@@ -20,13 +19,20 @@ public abstract class Grenade : Explosive {
 	}
 
 	public override void Use(){
-		base.Use();
 		Throw(transform.forward, strength);
 	}
 
-	public void Throw(Vector3 direction, float strength){
+	protected void Throw(Vector3 direction, float strength){
 		rigidbody.AddForce(direction * strength);
 	}
 	
+	protected override void Explode ()
+	{
+		//this.gameObject.GetComponent<AudioSource>().PlayOneShot(activateSounds[Random.Range(0, activateSounds.Length)]);
+		Collider [] hitColliders = Physics.OverlapSphere(transform.position, AOERadius, layerAffected);
+        Apply(hitColliders);
+		Destroy(this.gameObject);
+	}
 	
+	protected abstract void Apply(Collider[] inRange);
 }

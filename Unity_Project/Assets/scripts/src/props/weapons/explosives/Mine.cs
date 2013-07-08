@@ -20,7 +20,7 @@ public class Mine : Explosive {
 		StartCoroutine("Arm");
 	}
 	
-	public override void Explode(){
+	protected override void Explode(){
 		Collider [] hitColliders = Physics.OverlapSphere(transform.position, AOERadius, layerAffected);
         foreach (Collider c in hitColliders) {
             c.GetComponent<Person>().TakeDamage(damage);
