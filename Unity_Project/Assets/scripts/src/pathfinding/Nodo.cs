@@ -5,6 +5,12 @@ using System.Collections.Generic;
 public class Nodo : MonoBehaviour{
 	
 	private List<Nodo> neighbors;
+
+	public List<Nodo> Neighbors {
+		get {
+			return this.neighbors;
+		}
+	}	
 	
 	void Awake(){
 		this.neighbors = new List<Nodo>();

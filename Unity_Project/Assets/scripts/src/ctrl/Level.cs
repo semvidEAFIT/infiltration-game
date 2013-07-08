@@ -6,7 +6,7 @@ public class Level : MonoBehaviour {
 	
 	private List<Nodo> nodos;
 	private static Level instance;
-	
+
 	public static Level Instance {
 		get {
 			return instance;
@@ -15,6 +15,12 @@ public class Level : MonoBehaviour {
 	
 	private int objectiveCount;
 	private Grid grid;
+
+	public Grid Grid {
+		get {
+			return this.grid;
+		}
+	}	
 	
 	void Awake(){
 		if (instance == null) {
@@ -39,7 +45,6 @@ public class Level : MonoBehaviour {
 		foreach(GameObject g in gNodo){
 			nodos.Add(g.GetComponent<Nodo>());	
 		}
-		
 		this.grid = new Grid(nodos);
 	}
 	
