@@ -20,6 +20,7 @@ public abstract class Grenade : Explosive {
 
 	public override void Use(){
 		Throw(transform.forward, strength);
+		this.gameObject.GetComponent<AudioSource>().PlayOneShot(useSounds[Random.Range(0, useSounds.Length)]);
 	}
 
 	protected void Throw(Vector3 direction, float strength){
@@ -28,7 +29,6 @@ public abstract class Grenade : Explosive {
 	
 	protected override void Explode ()
 	{
-		//this.gameObject.GetComponent<AudioSource>().PlayOneShot(activateSounds[Random.Range(0, activateSounds.Length)]);
 		Collider [] hitColliders = Physics.OverlapSphere(transform.position, AOERadius, layerAffected);
         Apply(hitColliders);
 		Destroy(this.gameObject);
