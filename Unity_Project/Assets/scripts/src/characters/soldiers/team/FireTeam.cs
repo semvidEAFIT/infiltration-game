@@ -10,8 +10,6 @@ public class FireTeam : MonoBehaviour, ICommand {
 	
 	private Command lastCommand;
 	
-	public float formation;
-	
 	// Use this for initialization
 	void Start () {
 		commands = new List<Command>();
@@ -76,7 +74,7 @@ public class FireTeam : MonoBehaviour, ICommand {
 		ExecuteCommand();
 	}
 	
-	public void MoveInArrowFormation(Vector3 target){ //en cuña
+	private void MoveInArrowFormation(Vector3 target){ //en cuña
 		Vector3 frontDir = (target - transform.position).normalized;
 		Vector3 sideDir = Vector3.Cross(frontDir,Vector3.up).normalized;
 		Vector3 soldier1Tar = target + frontDir*2;
@@ -101,8 +99,9 @@ public class FireTeam : MonoBehaviour, ICommand {
 		}
 	}
 	
-	public void MoveInLineFormation (Vector3 target){ //en "fila india"
-		if (soldiers[1]==null && soldiers[2]!=null){
+	private void MoveInLineFormation (Vector3 target){ //en "fila india"
+		//Version de Ponce
+		/*if (soldiers[1]==null && soldiers[2]!=null){
 			soldiers[1]=soldiers[2];
 			soldiers[2]=null;
 		}
@@ -135,9 +134,13 @@ public class FireTeam : MonoBehaviour, ICommand {
 			} catch {
 				//dead
 			}
-		}
+		}*/
+		
 	}
 	
+	public void Move(Vector3 targetPos){
+		MoveInLineFormation(targetPos);
+	}
 	public void AddCommand(Command command){
 		if (!commands.Contains(command)){
 			commands.Add(command);
