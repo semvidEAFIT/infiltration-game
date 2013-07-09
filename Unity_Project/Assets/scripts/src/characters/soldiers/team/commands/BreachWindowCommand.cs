@@ -1,15 +1,15 @@
 using UnityEngine;
 using System.Collections;
 
-public class IntelCommand : Command, IPersonListener {
+public class BreachWindowCommand :  Command, IPersonListener {
 
 	private Vector3 targetPos;
-	private Objective intel;
+	private Window window;
 	private FireTeam executor;
 	
-	public IntelCommand(FireTeam executor, Vector3 nextPos, Objective intel) : base(executor){
+	public BreachWindowCommand(FireTeam executor, Vector3 nextPos, Window window) : base(executor){
 		this.targetPos = nextPos;
-		this.intel = intel;
+		this.window = window;
 		this.executor = executor;
 		executor.soldiers[0].GetComponent<Soldier>().AddIPersonListener(this);
 	}
@@ -29,7 +29,7 @@ public class IntelCommand : Command, IPersonListener {
 	
 	public void Arrived (Person person)
 	{
-		intel.Get();	
+		window.BreachWindow();
 		NotifyCommandEnded();
 	}
 }
