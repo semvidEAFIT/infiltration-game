@@ -1,11 +1,11 @@
 using UnityEngine;
 using System.Collections;
 
-public class MoveCommand : Command, IPersonListener {
+public class WaitPointCommand : Command, IPersonListener {
 
 	private Vector3 targetPos;
 	
-	public MoveCommand(FireTeam executor, Vector3 nextPos) : base(executor){
+	public WaitPointCommand(FireTeam executor, Vector3 nextPos) : base(executor){
 		this.targetPos = nextPos;
 		executor.soldiers[0].GetComponent<Soldier>().AddIPersonListener(this);
 	}
@@ -14,7 +14,6 @@ public class MoveCommand : Command, IPersonListener {
 	{
 		//TODO: ALways in line formation?
 		this.FireTeam.MoveInLineFormation(targetPos);
-		//NotifyCommandEnded();
 	}
 	
 	public override bool Ended ()
@@ -25,7 +24,6 @@ public class MoveCommand : Command, IPersonListener {
 	
 	public void Arrived (Person person)
 	{
-		Debug.Log("Ahi");
-		NotifyCommandEnded();
+		//TODO:Notificar llego
 	}
 }

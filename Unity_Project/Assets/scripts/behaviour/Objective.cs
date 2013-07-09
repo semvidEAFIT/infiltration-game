@@ -14,4 +14,8 @@ public class Objective : MonoBehaviour {
 	void OnDestroy(){
 		ObjectiveDone();
 	}
+	
+	public void Get(){
+		Destroy(this.gameObject);
+	}
 }

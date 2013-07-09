@@ -30,9 +30,9 @@ public abstract class Grenade : Explosive {
 	protected override void Explode ()
 	{
 		Collider [] hitColliders = Physics.OverlapSphere(transform.position, AOERadius, layerAffected);
-        Apply(hitColliders);
+        ApplyDamage(hitColliders);
 		Destroy(this.gameObject);
 	}
 	
-	protected abstract void Apply(Collider[] inRange);
+	protected abstract void ApplyDamage(Collider[] inRange);
 }
