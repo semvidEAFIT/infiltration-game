@@ -30,7 +30,7 @@ public class FireTeam : MonoBehaviour, ICommand {
 					movec.AddICommand(this);
 					AddCommand(movec);
 					//MoveInLineFormation(hit.point);
-					ExecuteCommand();
+//					ExecuteCommand();
 				} else {
 					if(hit.collider.gameObject.layer == 11 && hit.collider.gameObject.tag == "Door"){
 						MoveCommand move = new MoveCommand(this, hit.point);
@@ -51,7 +51,7 @@ public class FireTeam : MonoBehaviour, ICommand {
 				}
 			}
 		}
-		if(Input.GetMouseButton(1)){
+		if(Input.GetMouseButtonDown(1)){
 			ExecuteCommand();
 		}
 		//TODO: For testing purposes.
@@ -148,9 +148,9 @@ public class FireTeam : MonoBehaviour, ICommand {
 	public void ExecuteCommand(){
 		if (commands.Count > 0){
 			lastCommand = commands[0];
+			commands.RemoveAt(0);
 			lastCommand.Start();
 			CommandStarted(lastCommand);
-			commands.RemoveAt(0);
 		}
 	}
 
@@ -170,6 +170,6 @@ public class FireTeam : MonoBehaviour, ICommand {
 
 	public void CommandEnded (Command command)
 	{
-		
+		ExecuteCommand();
 	}
 }

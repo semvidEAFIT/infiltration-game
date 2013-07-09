@@ -1,12 +1,16 @@
 using UnityEngine;
 using System.Collections;
 
-public class MoveCommand : Command, IPersonListener {
+public class IntelCommand : Command, IPersonListener {
 
 	private Vector3 targetPos;
+	private Objective intel;
+	private FireTeam executor;
 	
-	public MoveCommand(FireTeam executor, Vector3 nextPos) : base(executor){
+	public IntelCommand(FireTeam executor, Vector3 nextPos, Objective intel) : base(executor){
 		this.targetPos = nextPos;
+		this.intel = intel;
+		this.executor = executor;
 		executor.soldiers[0].GetComponent<Soldier>().AddIPersonListener(this);
 	}
 	
@@ -25,7 +29,7 @@ public class MoveCommand : Command, IPersonListener {
 	
 	public void Arrived (Person person)
 	{
-		Debug.Log("Ahi");
+		intel.Get();	
 		NotifyCommandEnded();
 	}
 }
