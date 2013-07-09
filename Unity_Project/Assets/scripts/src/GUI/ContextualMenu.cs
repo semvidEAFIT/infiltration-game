@@ -12,19 +12,23 @@ public class ContextualMenu : MonoBehaviour {
 	private float menuTop;
 	private float menuBottom;
 	
-	private float menuX;
-	private float menuY; 
+	private float buttonX;
+	private float buttonY; 
+	
+	private int numberRows;
 	
 	private int zone;
 	
-	public Texture[] commandTextures;
+	public int maxRowIcons = 5;
 	
 	public float xFraction= 0.05f;
 	public float yFraction= 0.05f;
 	
+	public Texture[] commandTextures;
+	
 	void Start() {
-		menuX = xFraction*Screen.width;
-		menuY = yFraction*Screen.height*commandTextures.Length;
+		buttonX = xFraction*Screen.width;
+		buttonY = yFraction*Screen.height;
 	}
 	
 	// Update is called once per frame
@@ -43,14 +47,18 @@ public class ContextualMenu : MonoBehaviour {
 	
 	void OnGUI(){
 		if (menuActive){
-			GUI.BeginGroup(new Rect(menuLeft, menuTop, menuX, menuY));
-				for (int i=0; i<commandTextures.Length; i++){
-					if (GUI.Button(new Rect(0, i*(yFraction*Screen.height), menuX, (yFraction*Screen.height)), commandTextures[i])){
-						CallCommand(i);
+			GUI.BeginGroup(new Rect(menuLeft, menuTop, buttonX*numberRows, buttonY*maxRowIcons));
+			int count=0;
+			for (int j=0; j<numberRows; j++){
+				for(int i=0; i<maxRowIcons && count<commandTextures.Length; i++){
+					if (GUI.Button(new Rect(j*buttonX, i*(yFraction*Screen.height), buttonX, buttonY), commandTextures[count])){
+						CallCommand(count);
 						CloseMenu();
 					}
+					count++;
 				}
-			GUI.EndGroup();
+			}			
+			GUI.EndGroup();	
 		}
 	}
 	
@@ -64,22 +72,25 @@ public class ContextualMenu : MonoBehaviour {
 				
 			} else {
 				//cuadrante superior derecho
-				menuLeft= rigthClickPos.x - menuX;
+				menuLeft= rigthClickPos.x - buttonX*numberRows;
 				menuTop= rigthClickPos.y;
 			}
 		} else {
 			if(screen.x < Screen.width/2){
 				//cuadrante inferior izquierdo
 				menuLeft= rigthClickPos.x;
-				menuTop= rigthClickPos.y - menuY;
+				menuTop= rigthClickPos.y - buttonY*maxRowIcons;
 			} else {
 				//cuadrante inferior derecho
-				menuLeft= rigthClickPos.x - menuX;
-				menuTop= rigthClickPos.y - menuY;
+				menuLeft= rigthClickPos.x - buttonX*numberRows;
+				menuTop= rigthClickPos.y - buttonY*maxRowIcons;
 			}
 		}
-		menuRigth= menuX + menuLeft;
-		menuBottom= menuY + menuTop;
+		numberRows = commandTextures.Length/maxRowIcons;
+		if(commandTextures.Length%maxRowIcons != 0) numberRows++;
+		
+		menuRigth= buttonX*numberRows + menuLeft;
+		menuBottom= buttonY*maxRowIcons + menuTop;
 	}
 	
 	public void CloseMenu(){
