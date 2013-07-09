@@ -7,6 +7,7 @@ public class FireTeam : MonoBehaviour, ICommand {
 	private Point point;
 	private FireTeamState state;
 	private List<Command> commands;
+	
 	private Command lastCommand;
 	
 	public float formation;
@@ -14,18 +15,40 @@ public class FireTeam : MonoBehaviour, ICommand {
 	// Use this for initialization
 	void Start () {
 		commands = new List<Command>();
+		
 		//Go ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetMouseButton(0)){
+		if(Input.GetMouseButtonDown(0)){
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
       		RaycastHit hit;
-        	if(Physics.Raycast(ray, out hit) && hit.collider.gameObject.layer==9){
-				AddCommand(new MoveCommand(this, hit.point));
-				//MoveInLineFormation(hit.point);
-				ExecuteCommand();
+        	if(Physics.Raycast(ray, out hit)){
+				if(hit.collider.gameObject.layer == 9){
+					MoveCommand movec = new MoveCommand(this, hit.point);
+					movec.AddICommand(this);
+					AddCommand(movec);
+					//MoveInLineFormation(hit.point);
+					ExecuteCommand();
+				} else {
+					if(hit.collider.gameObject.layer == 11 && hit.collider.gameObject.tag == "Door"){
+						MoveCommand move = new MoveCommand(this, hit.point);
+						move.AddICommand(this);
+						AddCommand(move);
+						
+						if(hit.collider.gameObject.GetComponent<Door>().IsLocked()){
+							C4Command c4 = new C4Command(this);
+							c4.AddICommand(this);
+							AddCommand(c4);
+						}
+						else{
+							DoorCommand door = new DoorCommand(this, hit.collider.gameObject);
+							door.AddICommand(this);
+							AddCommand(new DoorCommand(this, hit.collider.gameObject));
+						}
+					}
+				}
 			}
 		}
 		if(Input.GetMouseButton(1)){

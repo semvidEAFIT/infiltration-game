@@ -11,13 +11,17 @@ public class Person : MonoBehaviour {
 	public float speed;
 	public GameObject follow;// se debe popner privado una vez se programe un rehen
 	private CharacterController cc;
-	public float distanceFollow;
+	public float distanceFollow = 6.0f;
+	public float distanceSnap = 10.0f;
 	private float healthPoints;
-	public float initialHealth = 5f;
+	public float initialHealth = 5.0f;
+	
+	private List<IPersonListener> personListeners;
 	
 	// Use this for initialization
 	public virtual void Start () {
 		last = new List<Vector3>();
+		personListeners = new List<IPersonListener>();
 		last.Add(transform.position);
 		route = new List<Vector3>();
 		destination = Vector3.zero;
@@ -26,6 +30,22 @@ public class Person : MonoBehaviour {
 			Destination = follow.transform.position;
 		}
 		cc = GetComponent<CharacterController>();
+	}
+	
+	public void AddIPersonListener(IPersonListener iPersonListener){
+		if (!personListeners.Contains(iPersonListener)){
+			personListeners.Add(iPersonListener);
+		}
+	}
+	
+	public void RemoveIPersonListener(IPersonListener iPersonListener){
+		personListeners.Remove(iPersonListener);
+	}
+	
+	private void NotifyPersonArrived(){
+		foreach (IPersonListener p in personListeners){
+			p.Arrived(this);
+		}
 	}
 	
 	// Update is called once per frame
@@ -37,13 +57,18 @@ public class Person : MonoBehaviour {
 		}else if(destination != Vector3.zero && (follow==null || 
 			(follow!=null && (follow.transform.position-transform.position).magnitude > distanceFollow))){
 			cc.SimpleMove ((destination-transform.position)*speed);
-			if((transform.position-destination).magnitude < 10){
+			if((transform.position-destination).magnitude < distanceSnap){
 				destination = Vector3.zero;
+				//Notify arrived
+				NotifyPersonArrived();
 			}
-		}else if(follow != null && ((destination-transform.position).magnitude < 10||destination==Vector3.zero)){
+			//EN LA SIGUIENTE LINEA distanceFollow ERA ANTES UN '10' (por si algun problema)
+		}else if(follow != null && ((destination-transform.position).magnitude < distanceFollow||destination==Vector3.zero)){
 			try{
 				Destination =  follow.GetComponent<Person>().Last;
 				last.Add(destination);
+				//Notify arrived
+				NotifyPersonArrived();
 		
 			}catch{}
 		}
