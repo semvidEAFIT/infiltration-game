@@ -11,7 +11,7 @@ public class Person : MonoBehaviour {
 	public float speed;
 	public GameObject follow;// se debe popner privado una vez se programe un rehen
 	private CharacterController cc;
-	public float distance;
+	public float distanceFollow;
 	private float healthPoints;
 	public float initialHealth = 5f;
 	
@@ -35,7 +35,7 @@ public class Person : MonoBehaviour {
 			last.Add(destination);
 			route.RemoveAt(0);
 		}else if(destination != Vector3.zero && (follow==null || 
-			(follow!=null && (follow.transform.position-transform.position).magnitude > distance))){
+			(follow!=null && (follow.transform.position-transform.position).magnitude > distanceFollow))){
 			cc.SimpleMove ((destination-transform.position)*speed);
 			if((transform.position-destination).magnitude < 10){
 				destination = Vector3.zero;
@@ -117,7 +117,9 @@ public class Person : MonoBehaviour {
 	}
 	
 	public virtual void View(RaycastHit[] gs){
-		
+		foreach(RaycastHit hit in gs){
+			Debug.DrawRay(transform.position, (hit.transform.position-transform.position).normalized * 20, Color.red);
+		}		
 	}
 	#endregion
 }

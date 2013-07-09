@@ -7,14 +7,8 @@ public abstract class Explosive : Item {
 	public float damage;
 	public LayerMask layerAffected;
 	
-	void Start(){
-	}
+	public AudioClip[] useSounds;
+	public AudioClip[] activateSounds;
 
-	void Update(){
-	}
-
-	public override void Use(){
-	}
-
-	public abstract void Explode();
+	protected abstract void Explode();
 }

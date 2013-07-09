@@ -12,12 +12,15 @@ public class Soldier : Person {
 	public float accuracyDelta;
 	public float shootingForce;
 	
-	public LayerMask allies;
+	public AudioClip[] burstfireSounds;
+	
+	private string alliesTag;
 	
 	// Use this for initialization
 	public override void Start () {
 		base.Start();
 		mainWeapon = new SubmachineGun(this.gameObject, maxGunAmmo, initialGunMags, bulletDamage, accuracyDelta, shootingForce);
+		alliesTag = gameObject.tag;
 	}
 	
 	// Update is called once per frame
@@ -30,16 +33,27 @@ public class Soldier : Person {
 //		if(Input.GetKeyDown(KeyCode.G)){
 //			ThrowFragGrenade();
 //		}
-		if(Input.GetKeyDown(KeyCode.F)){
-			ThrowFlashbang();
-		}
-		if(Input.GetKey(KeyCode.A)){
-			transform.Translate(new Vector3(1, 0, 0));
+//		if(Input.GetKeyDown(KeyCode.F)){
+//			ThrowFlashbang();
+//		}
+//		if(Input.GetKeyDown(KeyCode.C)){
+//			PlantC4();
+//		}
+//		if(Input.GetKey(KeyCode.A)){
+//			transform.Translate(new Vector3(1, 0, 0));
+//		}
+	}
+	
+	void OnControllerColliderHit(ControllerColliderHit hit){
+		if(hit.collider.gameObject.tag.Equals("Intel")){
+			getIntel(hit.collider.gameObject);
 		}
 	}
 	
 	private void Shoot(){
-		if (!Physics.Raycast(transform.position, transform.forward, Mathf.Infinity, allies.value)) {
+		Ray ray = new Ray(transform.position, transform.forward);
+		RaycastHit hit;
+		if(Physics.Raycast(ray, out hit) && hit.collider.gameObject.tag!=alliesTag){
 			mainWeapon.Fire();
 		}
 	}
@@ -69,7 +83,15 @@ public class Soldier : Person {
 		claymore.GetComponent<Claymore>().Use();
 	}
 	
+	public void getIntel(GameObject intel){
+		GameObject.Destroy(intel);
+	}
+	
 	public virtual void Blind(float blindForSeconds){
 		//Debug.Log("AH! I'M A BLIND SOLDIER!");
+	}
+	
+	public void playShootSound(){
+		this.gameObject.GetComponent<AudioSource>().PlayOneShot(burstfireSounds[Random.Range(0,burstfireSounds.Length)]);
 	}
 }

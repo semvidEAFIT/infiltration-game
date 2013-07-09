@@ -5,10 +5,8 @@ public class Flashbang : Grenade {
 	
 	public float secondsBlinded;
 	
-	public override void Explode(){
-		Collider [] hitColliders = Physics.OverlapSphere(transform.position, AOERadius, layerAffected);
-        
-        foreach (Collider c in hitColliders) {
+	protected override void Apply(Collider[] inRange){
+        foreach (Collider c in inRange) {
 			if(c.gameObject.GetComponent<Soldier>() != null){
 				c.gameObject.GetComponent<Soldier>().Blind(secondsBlinded);
 			}
@@ -21,6 +19,5 @@ public class Flashbang : Grenade {
 				}
 			}
         }
-		Destroy(this.gameObject);
 	}
 }

@@ -2,25 +2,13 @@ using UnityEngine;
 using System.Collections;
 
 public class C4 : Explosive {
-
-	void Start () {
-	
-	}
-	
-	void Update () {
-	
-	}
 	
 	public override void Use(){
 		//TODO: Stick to door/wall/window
+		this.gameObject.GetComponent<AudioSource>().PlayOneShot(useSounds[Random.Range(0, useSounds.Length)]);
 	}
 
-	public override void Explode (){
-		Collider [] hitColliders = Physics.OverlapSphere(transform.position, AOERadius, layerAffected);
-        foreach (Collider c in hitColliders) {
-            c.GetComponent<Person>().TakeDamage(damage);
-			//TODO: Dañar puertas/ventanas/etc
-        }
-		Destroy(this.gameObject);
+	protected override void Explode (){
+		//TODO: Destroy Door and damage units behind it using a spherecast
 	}
 }

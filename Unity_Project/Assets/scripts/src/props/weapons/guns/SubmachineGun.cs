@@ -14,7 +14,7 @@ public class SubmachineGun : Gun {
 	public override void Fire(){
 		for (int i=0; i < bulletsInBurst && bulletsLeft > 0; i++){
 			InstantiateBullet(bulletSpeed);
-			Debug.Log(i);
+			owner.gameObject.GetComponent<Soldier>().playShootSound();
 		}
 
 		if(bulletsLeft <= 0){
