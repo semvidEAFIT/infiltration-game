@@ -5,7 +5,7 @@ public class Flashbang : Grenade {
 	
 	public float secondsBlinded;
 	
-	protected override void Apply(Collider[] inRange){
+	protected override void ApplyDamage(Collider[] inRange){
         foreach (Collider c in inRange) {
 			if(c.gameObject.GetComponent<Soldier>() != null){
 				c.gameObject.GetComponent<Soldier>().Blind(secondsBlinded);
