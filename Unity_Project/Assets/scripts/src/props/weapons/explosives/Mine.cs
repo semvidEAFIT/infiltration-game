@@ -8,11 +8,17 @@ public class Mine : Explosive {
 	private bool activated;
 	
 	void Update () {
+//		if(activated){
+//			Collider [] hitColliders = Physics.OverlapSphere(transform.position, detectionRadius, layerAffected);
+//			if(hitColliders.Length > 0){
+//				Explode();
+//			}
+//		}
+	}
+	
+	void OnTriggerEnter(Collider c){
 		if(activated){
-			Collider [] hitColliders = Physics.OverlapSphere(transform.position, detectionRadius, layerAffected);
-			if(hitColliders.Length > 0){
-				Explode();
-			}
+			Explode();
 		}
 	}
 	
