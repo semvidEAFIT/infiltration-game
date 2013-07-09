@@ -25,7 +25,6 @@ public class MoveCommand : Command, IPersonListener {
 	
 	public void Arrived (Person person)
 	{
-		Debug.Log("Ahi");
 		NotifyCommandEnded();
 	}
 }
