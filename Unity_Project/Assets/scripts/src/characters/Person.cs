@@ -68,7 +68,7 @@ public class Person : MonoBehaviour {
 				Destination =  follow.GetComponent<Person>().Last;
 				last.Add(destination);
 				//Notify arrived
-				NotifyPersonArrived();
+//				NotifyPersonArrived();
 		
 			}catch{}
 		}
