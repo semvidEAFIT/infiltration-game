@@ -146,7 +146,7 @@ public class Person : MonoBehaviour {
 		if(cc.isGrounded){
 			
 			if(following != null){
-				destination = following.transform.position + (transform.position - following.transform.position).normalized * distanceFollow;
+				destination = following.transform.position - (following.transform.forward * distanceFollow);
 			}
 			
 			if(moving){
