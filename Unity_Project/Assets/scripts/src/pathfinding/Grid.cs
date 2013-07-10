@@ -59,9 +59,14 @@ public class Grid{
 	
 	public Vector3[] FindPath(Vector3 origin, Vector3 target){
 		List<Vector3> path = new List<Vector3>();
-		Node[] pathNodos = FindPath(GetClosestNode(origin), GetClosestNode(target));
-		foreach (Node n in pathNodos) {
-			path.Add(n.transform.position);
+		target.y = origin.y;
+		RaycastHit hit;
+		if(Physics.Raycast(origin, (target - origin).normalized, Mathf.Abs((target - origin).magnitude))){
+			Debug.Log("Yeah");
+			Node[] pathNodos = FindPath(GetClosestNode(origin), GetClosestNode(target));
+			foreach (Node n in pathNodos) {
+				path.Add(n.transform.position);
+			}
 		}
 		path.Add(target);
 		
