@@ -159,6 +159,9 @@ public class Person : MonoBehaviour {
 					}
 				}else{
 					cc.SimpleMove(distance.normalized * speed * Time.deltaTime);
+					Vector3 lookingPos = destination;
+					lookingPos.y = transform.position.y;
+					transform.LookAt(lookingPos);
 				}
 			}else{
 				if(route.Count > 0){
