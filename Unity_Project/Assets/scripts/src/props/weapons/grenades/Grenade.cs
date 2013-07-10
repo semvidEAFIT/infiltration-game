@@ -29,6 +29,7 @@ public abstract class Grenade : Explosive {
 	
 	protected override void Explode ()
 	{
+		GetComponent<NoiseMaker>().MakeNoise();
 		Collider [] hitColliders = Physics.OverlapSphere(transform.position, AOERadius, layerAffected);
         ApplyDamage(hitColliders);
 		Destroy(this.gameObject);

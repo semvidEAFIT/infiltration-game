@@ -89,9 +89,9 @@ public class Person : MonoBehaviour {
 		
 	}*/
 	
-	public void TakeDamage(float damage){
+	public virtual void TakeDamage(float damage, Vector3 sourcePosition){
 		healthPoints -= damage;
-		
+		Debug.Log("damage");	
 		if (healthPoints <= 0){
 			//person dead
 			Destroy(this.gameObject);
@@ -178,15 +178,15 @@ public class Person : MonoBehaviour {
 	
 	#region Senses
 	public virtual void HearNoise(GameObject g){
-		StartCoroutine(TurnColor(Color.green));	
+		//StartCoroutine(TurnColor(Color.green));	
 	}
 	
-	IEnumerator TurnColor(Color color){
-		Color c = renderer.material.color;
-		renderer.material.color = color;
-		yield return new WaitForSeconds(3.0f);
-		renderer.material.color = c;
-	}
+	//IEnumerator TurnColor(Color color){	
+	//	Color c = renderer.material.color;
+	//	renderer.material.color = color;
+	//	yield return new WaitForSeconds(3.0f);
+	//	renderer.material.color = c;
+//	}
 	
 	public virtual void View(RaycastHit[] gs){
 		foreach(RaycastHit hit in gs){

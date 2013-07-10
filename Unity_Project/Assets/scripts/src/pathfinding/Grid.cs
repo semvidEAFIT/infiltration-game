@@ -62,7 +62,6 @@ public class Grid{
 		target.y = origin.y;
 		RaycastHit hit;
 		if(Physics.Raycast(origin, (target - origin).normalized, Mathf.Abs((target - origin).magnitude))){
-			Debug.Log("Yeah");
 			Node[] pathNodos = FindPath(GetClosestNode(origin), GetClosestNode(target));
 			foreach (Node n in pathNodos) {
 				path.Add(n.transform.position);

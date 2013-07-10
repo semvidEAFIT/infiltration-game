@@ -26,7 +26,7 @@ public class C4 : Explosive {
 				c.gameObject.GetComponent<Door>().Breach();
 			} else {
 				if(t.Equals("Terrorist") || t.Equals("Fireteam") || t.Equals("Hostages")){
-					c.gameObject.GetComponent<Person>().TakeDamage(damage);
+					c.gameObject.GetComponent<Person>().TakeDamage(damage, transform.position);
 				}
 			}
 		}
