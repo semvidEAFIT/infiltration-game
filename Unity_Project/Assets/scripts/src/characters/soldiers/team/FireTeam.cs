@@ -3,106 +3,65 @@ using System.Collections.Generic;
 
 public class FireTeam : MonoBehaviour, ICommand {
 	
-	public GameObject[] soldiers;
+	public Soldier[] soldiers;
 	private Point point;
 	private FireTeamState state;
 	private List<Command> commands;
 	
 	private Command lastCommand;
 	
-	public float formation;
-	
-	#region MonoBehaviour
 	void Start () {
 		commands = new List<Command>();
-		foreach(GameObject g in soldiers){
-			g.GetComponent<Soldier>().SetFireTeam(this);
+		foreach(Soldier s in soldiers){
+			s.SetFireTeam(this);
 		}
 		//Go ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetMouseButtonDown(0)){
-			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-      		RaycastHit hit;
-        	if(Physics.Raycast(ray, out hit)){
-				if(hit.collider.gameObject.layer == 9){
-					MoveCommand movec = new MoveCommand(this, hit.point);
-					movec.AddICommand(this);
-					AddCommand(movec);
-					//MoveInLineFormation(hit.point);
-//					ExecuteCommand();
-				} else {
-					if(hit.collider.gameObject.layer == 11 && hit.collider.gameObject.tag == "Door"){
-						MoveCommand move = new MoveCommand(this, hit.point);
-						move.AddICommand(this);
-						AddCommand(move);
-						
-						if(hit.collider.gameObject.GetComponent<Door>().IsLocked()){
-							C4Command c4 = new C4Command(this);
-							c4.AddICommand(this);
-							AddCommand(c4);
-						}
-						else{
-							DoorCommand door = new DoorCommand(this, hit.collider.gameObject);
-							door.AddICommand(this);
-							AddCommand(new DoorCommand(this, hit.collider.gameObject));
-						}
-					}
-				}
-			}
-		}
-		if(Input.GetMouseButtonDown(1)){
-			ExecuteCommand();
-		}
-		//TODO: For testing purposes.
-		if(Input.GetKeyDown(KeyCode.G)){
-			AddCommand(new FragGrenadeCommand(this));
-		}
-		if(Input.GetKeyDown(KeyCode.F)){
-			AddCommand(new FlashbangCommand(this));
-		}
-		if(Input.GetKeyDown(KeyCode.M)){
-			AddCommand(new MineCommand(this));
-		}
-		if(Input.GetKeyDown(KeyCode.E)){
-			AddCommand(new C4Command(this));
-		}
-		if(Input.GetKeyDown(KeyCode.C)){
-			AddCommand(new ClaymoreCommand(this));
-		}
+		
 	}
-	#endregion
+
+	public void Go(){
+		ExecuteCommand();
+	}
 	
-	#region Formations
-	public void MoveInArrowFormation(Vector3 target){ //en cuña
+	#region Movement
+	
+	public void Move(Vector3 targetPos){
+		MoveInLineFormation(targetPos);
+	}
+	
+	private void MoveInArrowFormation(Vector3 target){ //en cuña
+
 		Vector3 frontDir = (target - transform.position).normalized;
 		Vector3 sideDir = Vector3.Cross(frontDir,Vector3.up).normalized;
 		Vector3 soldier1Tar = target + frontDir*2;
 		Vector3 soldier2Tar = target + (sideDir-frontDir)*4;
 		Vector3 soldier3Tar = target - (sideDir+frontDir)*4;
 		try {
-			soldiers[0].GetComponent<Soldier>().AddWayPoint(soldier1Tar);
+			soldiers[0].AddWayPoint(soldier1Tar);
 		} catch {
 			//dead
 		}
 		
 		try{
-			soldiers[1].GetComponent<Soldier>().AddWayPoint(soldier2Tar);
+			soldiers[1].AddWayPoint(soldier2Tar);
 		} catch (System.Exception ex) {
 			//dead
 		}
 		
 		try{
-			soldiers[2].GetComponent<Soldier>().AddWayPoint(soldier3Tar);
+			soldiers[2].AddWayPoint(soldier3Tar);
 		} catch (System.Exception ex) {
 			//dead
 		}
 	}
 	
-	public void MoveInLineFormation (Vector3 target){ //en "fila india"
-		if (soldiers[1]==null && soldiers[2]!=null){
+	private void MoveInLineFormation (Vector3 target){ //en "fila india"
+		//Version de Ponce
+		/*if (soldiers[1]==null && soldiers[2]!=null){
 			soldiers[1]=soldiers[2];
 			soldiers[2]=null;
 		}
@@ -135,9 +94,19 @@ public class FireTeam : MonoBehaviour, ICommand {
 			} catch {
 				//dead
 			}
+		}*/
+		
+		Vector3[] path = Level.Instance.Grid.FindPath(soldiers[0].transform.position, target);
+		soldiers[1].Follow(soldiers[0]);
+		soldiers[2].Follow(soldiers[1]);
+		foreach (Vector3 destination in path) {
+			soldiers[0].AddWayPoint(destination);
 		}
 	}
+	
 	#endregion
+	
+	#region Reaction
 	
 	public void Sighted(RaycastHit[] hits, Soldier soldier){
 		//TODO: call state
@@ -147,6 +116,8 @@ public class FireTeam : MonoBehaviour, ICommand {
 		//TODO: call state
 	}
 	
+	#endregion
+
 	#region Commands
 	public void AddCommand(Command command){
 		if (!commands.Contains(command)){

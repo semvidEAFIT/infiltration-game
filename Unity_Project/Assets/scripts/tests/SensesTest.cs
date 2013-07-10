@@ -16,7 +16,9 @@ public class SensesTest : Person {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	public override void Update () {
+		
+		base.Update();
 		if(Input.GetKeyDown(KeyCode.Space)){
 			noise.MakeNoise();
 		}

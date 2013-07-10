@@ -5,13 +5,19 @@ using System.Collections.Generic;
 
 public class Person : MonoBehaviour {
 	
-	private List<Vector3> route;
+	private Queue<Vector3> route;
+	
 	private Vector3 destination;
+	private bool moving = false;
+	
 	private List<Vector3> last;
 	public float speed;
-	public GameObject follow;// se debe popner privado una vez se programe un rehen
+	public float gravity = 200.0f;
+	
+	private Person following;
+	public float distanceFollow = 10.0f;
+	
 	private CharacterController cc;
-	public float distanceFollow = 6.0f;
 	public float distanceSnap = 10.0f;
 	private float healthPoints;
 	public float initialHealth = 5.0f;
@@ -23,12 +29,12 @@ public class Person : MonoBehaviour {
 		last = new List<Vector3>();
 		personListeners = new List<IPersonListener>();
 		last.Add(transform.position);
-		route = new List<Vector3>();
+		route = new Queue<Vector3>();
 		destination = Vector3.zero;
 		healthPoints = initialHealth;
-		if(follow != null){//se quita una vez se programe un rehen
+		/*if(follow != null){//se quita una vez se programe un rehen
 			Destination = follow.transform.position;
-		}
+		}*/
 		cc = GetComponent<CharacterController>();
 	}
 	
@@ -48,15 +54,15 @@ public class Person : MonoBehaviour {
 		}
 	}
 	
-	// Update is called once per frame
-	public virtual void Update () {
+	// Update de Mateo
+	/*public virtual void Update () {
 		if(follow == null && destination ==  Vector3.zero && route.Count > 0){
 			Destination = route[0];
 			last.Add(destination);
 			route.RemoveAt(0);
 		}else if(destination != Vector3.zero && (follow==null || 
 			(follow!=null && (follow.transform.position-transform.position).magnitude > distanceFollow))){
-			cc.SimpleMove ((destination-transform.position)*speed);
+			cc.SimpleMove ((destination-transform.position).normalized*speed *Time.deltaTime);
 			if((transform.position-destination).magnitude < distanceSnap){
 				destination = Vector3.zero;
 				//Notify arrived
@@ -81,7 +87,7 @@ public class Person : MonoBehaviour {
 //			}
 //		}
 		
-	}
+	}*/
 	
 	public void TakeDamage(float damage){
 		healthPoints -= damage;
@@ -91,24 +97,21 @@ public class Person : MonoBehaviour {
 			Destroy(this.gameObject);
 		}
 	}
+
 	
-	public void AddWayPoint(Vector3 point){
-		route.Add(point);
-	}
-	
-	#region
+	#region Movement
 	
 	public Vector3 Destination {
 		get {
 			return this.destination;
 		}
-		set {
-			destination = value;
-			this.transform.LookAt(new Vector3(destination.x,1.5f,destination.z));
-		}
 	}
 	
-
+	public void AddWayPoint(Vector3 wayPoint){
+		route.Enqueue(wayPoint);
+	}
+	
+	/*
 	public GameObject Follow {
 		get {
 			return this.follow;
@@ -117,7 +120,7 @@ public class Person : MonoBehaviour {
 			follow = value;
 			destination = follow.transform.position;
 		}
-	}
+	}*/
 	
 
 	public Vector3 Last {
@@ -127,6 +130,47 @@ public class Person : MonoBehaviour {
 			return ret;
 		}
 	}
+	
+	public void Follow(Person p){
+		following = p;
+		moving = true;
+		route.Clear();
+	}
+	
+	public void StopFollowing(){
+		following = null;
+		moving = false;
+	}
+	
+	public virtual void Update(){
+		if(cc.isGrounded){
+			
+			if(following != null){
+				destination = following.transform.position + (transform.position - following.transform.position).normalized * distanceFollow;
+			}
+			
+			if(moving){
+				Vector3 distance = (destination-transform.position);
+				distance.y = 0;
+				if(distance.sqrMagnitude < distanceSnap){
+					if(following == null){
+						destination = Vector3.zero;		
+						moving = false;
+					}
+				}else{
+					cc.SimpleMove(distance.normalized * speed * Time.deltaTime);
+				}
+			}else{
+				if(route.Count > 0){
+					destination = route.Dequeue();
+					moving = true;
+				}
+			}	
+		}else{
+			cc.SimpleMove(Vector3.down * gravity * Time.deltaTime);			
+		}
+	}
+	
 	#endregion
 	
 	#region Senses

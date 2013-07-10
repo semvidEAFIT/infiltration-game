@@ -1,10 +1,11 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Level : MonoBehaviour {
 	
 	private static Level instance;
-	
+
 	public static Level Instance {
 		get {
 			return instance;
@@ -12,6 +13,13 @@ public class Level : MonoBehaviour {
 	}
 	
 	private int objectiveCount;
+	private Grid grid;
+
+	public Grid Grid {
+		get {
+			return this.grid;
+		}
+	}	
 	
 	void Awake(){
 		if (instance == null) {
@@ -25,14 +33,19 @@ public class Level : MonoBehaviour {
 		objectiveCount = 0;
 	}
 	
-	// Use this for initialization
-	void Start () {
+	void Start(){
+		MakeGrid(); //Luego de que todos los nodos se incialicen, no mover.
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+	void MakeGrid ()
+	{
+		List<Node> nodos = new List<Node>();
+		GameObject[] gNodo = GameObject.FindGameObjectsWithTag("Node");
+		foreach(GameObject g in gNodo){
+			nodos.Add(g.GetComponent<Node>());	
+		}
+		this.grid = new Grid(nodos);
 	}
-	
 	
 	public void AddObjective(){
 		objectiveCount++;
