@@ -26,9 +26,9 @@ public class Soldier : Person {
 	public override void Update () {
 		base.Update();
 		//FOR TESTING PURPOSES.
-		if(Input.GetKeyDown(KeyCode.Space)){
-			Shoot();
-		}
+//		if(Input.GetKeyDown(KeyCode.Space)){
+//			Shoot();
+//		}
 //		if(Input.GetKeyDown(KeyCode.G)){
 //			ThrowFragGrenade();
 //		}
