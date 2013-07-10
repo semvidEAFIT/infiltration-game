@@ -6,7 +6,7 @@ public class PathFindingTester : MonoBehaviour {
 	private Vector3 source, destination;
 	private bool newSource, newDestination;
 	public LayerMask layer;
-	public Nodo[] path;
+	public Node[] path;
 	public Color pathColor;
 	
 	// Update is called once per frame
@@ -30,15 +30,15 @@ public class PathFindingTester : MonoBehaviour {
 	{
 		Debug.Log("Drawing Path");
 		if(path != null){
-			foreach(Nodo n in path){
+			foreach(Node n in path){
 				n.gameObject.renderer.material.color = Color.magenta;
 			}
 		}
 		
-		Nodo s = Level.Instance.Grid.GetClosestNode(source), d = Level.Instance.Grid.GetClosestNode(destination);
+		Node s = Level.Instance.Grid.GetClosestNode(source), d = Level.Instance.Grid.GetClosestNode(destination);
 		path = Level.Instance.Grid.FindPath(s, d);
 		
-		foreach (Nodo n in path) {
+		foreach (Node n in path) {
 			Debug.Log(n.transform.position);
 			n.gameObject.renderer.material.color = pathColor;
 		}
