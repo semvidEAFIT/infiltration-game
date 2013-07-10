@@ -4,16 +4,16 @@ using PriorityQueueDemo;
 
 public class Grid{
 	
-	private List<Nodo> nodos;
-	private Dictionary<Nodo, int> node2int;
+	private List<Node> nodos;
+	private Dictionary<Node, int> node2int;
 	private float[,] adj;
 	
-	public Grid(List<Nodo> nodos){
-		node2int = new Dictionary<Nodo, int>(nodos.Count);
+	public Grid(List<Node> nodos){
+		node2int = new Dictionary<Node, int>(nodos.Count);
 		this.nodos = nodos;
-		List<Nodo> unSeen = new List<Nodo>(nodos);
+		List<Node> unSeen = new List<Node>(nodos);
 		for(int i = 0; i < nodos.Count; i++){
-			Nodo n = nodos[i];
+			Node n = nodos[i];
 			unSeen.Remove(n);
 			n.FindNeighbors(unSeen);
 			node2int.Add(n, i);
@@ -31,9 +31,9 @@ public class Grid{
 			}
 		}
 		
-		foreach(Nodo n in nodos){
+		foreach(Node n in nodos){
 			adj[node2int[n], node2int[n]] = 0;
-			foreach (Nodo m in n.Neighbors) {
+			foreach (Node m in n.Neighbors) {
 				float sqrDistance = Mathf.Abs((m.transform.position - n.transform.position).sqrMagnitude);
 				adj[node2int[n], node2int[m]] = sqrDistance;
 				adj[node2int[m], node2int[n]] = sqrDistance;
@@ -41,8 +41,8 @@ public class Grid{
 		}
 	}
 	
-	public Nodo GetClosestNode(Vector3 point){
-		Nodo closest = nodos[0];
+	public Node GetClosestNode(Vector3 point){
+		Node closest = nodos[0];
 		float sqrDistance = Mathf.Abs((point - closest.transform.position).sqrMagnitude);
 		for (int i = 1; i < nodos.Count; i++) {
 			float newDistance = Mathf.Abs((point - nodos[i].transform.position).sqrMagnitude);
@@ -57,7 +57,18 @@ public class Grid{
 		return closest;
 	}
 	
-	public Nodo[] FindPath(Nodo source, Nodo destination){
+	public Vector3[] FindPath(Vector3 origin, Vector3 target){
+		List<Vector3> path = new List<Vector3>();
+		Node[] pathNodos = FindPath(GetClosestNode(origin), GetClosestNode(target));
+		foreach (Node n in pathNodos) {
+			path.Add(n.transform.position);
+		}
+		path.Add(target);
+		
+		return path.ToArray();
+	}
+	
+	public Node[] FindPath(Node source, Node destination){
 		
 		//Initialize single source
 		float[] d = new float[nodos.Count];
@@ -68,38 +79,38 @@ public class Grid{
 		
 		d[node2int[source]] = 0.0f;
 		
-		Nodo[] p = new Nodo[nodos.Count];
+		Node[] p = new Node[nodos.Count];
 		
 		//Dijkstra
-		PriorityQueue<float, Nodo> q = new PriorityQueue<float, Nodo>(nodos.Count);
+		PriorityQueue<float, Node> q = new PriorityQueue<float, Node>(nodos.Count);
 		
-		foreach(Nodo n in nodos){
-			q.Add(new KeyValuePair<float, Nodo>(d[node2int[n]], n));
+		foreach(Node n in nodos){
+			q.Add(new KeyValuePair<float, Node>(d[node2int[n]], n));
 		}
 		
 		while(q.Count > 0){
-			Nodo u = q.DequeueValue();
+			Node u = q.DequeueValue();
 			for(int i = 0; i < nodos.Count; i++){
 				if(i != node2int[u] && adj[node2int[u], i] != Mathf.Infinity){	
 					//Relaxation
 					if(d[i] > d[node2int[u]] + adj[node2int[u], i]){
 						//Debug.Log("Contiene" + q.Contains(new KeyValuePair<float, Nodo>(d[i], nodos[i])));
-						q.Remove(new KeyValuePair<float, Nodo>(d[i], nodos[i]));
+						q.Remove(new KeyValuePair<float, Node>(d[i], nodos[i]));
 					
 						d[i] = d[node2int[u]] + adj[node2int[u], i];
 						p[i] = u;
 						
 						//Update values
 						
-						q.Add(new KeyValuePair<float, Nodo>(d[i], nodos[i]));
+						q.Add(new KeyValuePair<float, Node>(d[i], nodos[i]));
 					}
 				}
 			}
 		}
 		
-		Stack<Nodo> path = new Stack<Nodo>();
+		Stack<Node> path = new Stack<Node>();
 		
-		Nodo prev = destination;
+		Node prev = destination;
 		
 		while(prev != source){
 			path.Push(prev);

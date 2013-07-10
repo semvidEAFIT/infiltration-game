@@ -136,6 +136,12 @@ public class FireTeam : MonoBehaviour, ICommand {
 			}
 		}*/
 		
+		Vector3[] path = Level.Instance.Grid.FindPath(soldiers[0].transform.position, target);
+		foreach (Vector3 destination in path) {
+			foreach (GameObject soldier in soldiers) {
+				soldier.GetComponent<Soldier>().AddWayPoint(destination);
+			}
+		}
 	}
 	
 	public void Move(Vector3 targetPos){
