@@ -11,10 +11,9 @@ public class Soldier : Person {
 	public float bulletDamage;
 	public float accuracyDelta;
 	public float shootingForce;
-	
 	public AudioClip[] burstfireSounds;
-	
 	private string alliesTag;
+	private FireTeam fireTeam;
 	
 	// Use this for initialization
 	public override void Start () {
@@ -27,9 +26,9 @@ public class Soldier : Person {
 	public override void Update () {
 		base.Update();
 		//FOR TESTING PURPOSES.
-		if(Input.GetKeyDown(KeyCode.Space)){
-			Shoot();
-		}
+//		if(Input.GetKeyDown(KeyCode.Space)){
+//			Shoot();
+//		}
 //		if(Input.GetKeyDown(KeyCode.G)){
 //			ThrowFragGrenade();
 //		}
@@ -44,10 +43,26 @@ public class Soldier : Person {
 //		}
 	}
 	
+	public void SetFireTeam(FireTeam ft){
+		fireTeam = ft;
+	}
+	
 	void OnControllerColliderHit(ControllerColliderHit hit){
 		if(hit.collider.gameObject.tag.Equals("Intel")){
 			getIntel(hit.collider.gameObject);
 		}
+	}
+	
+	public override void View(RaycastHit[] gs)
+	{
+		base.View(gs);
+		fireTeam.Sighted(gs, this);
+	}
+	
+	public override void HearNoise(GameObject g)
+	{
+		base.HearNoise (g);
+		fireTeam.Heard(g, this);
 	}
 	
 	private void Shoot(){

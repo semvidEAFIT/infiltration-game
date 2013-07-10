@@ -13,7 +13,7 @@ public class MoveCommand : Command, IPersonListener {
 	protected override void Execute ()
 	{
 		//TODO: ALways in line formation?
-		this.FireTeam.MoveInLineFormation(targetPos);
+		this.FireTeam.Move(targetPos);
 		//NotifyCommandEnded();
 	}
 	
@@ -25,7 +25,6 @@ public class MoveCommand : Command, IPersonListener {
 	
 	public void Arrived (Person person)
 	{
-		Debug.Log("Ahi");
 		NotifyCommandEnded();
 	}
 }
