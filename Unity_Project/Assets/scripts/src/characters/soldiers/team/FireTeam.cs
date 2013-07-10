@@ -5,12 +5,12 @@ public class FireTeam : MonoBehaviour, ICommand {
 	
 	public Soldier[] soldiers;
 	private Point point;
-	private FireTeamState state;
+	private GunState currentGunState;
 	private List<Command> commands;
-	
 	private Command lastCommand;
 	
 	void Start () {
+		currentGunState = new AgressiveGunState();
 		commands = new List<Command>();
 		foreach(Soldier s in soldiers){
 			s.SetFireTeam(this);
@@ -109,7 +109,7 @@ public class FireTeam : MonoBehaviour, ICommand {
 	#region Reaction
 	
 	public void Sighted(RaycastHit[] hits, Soldier soldier){
-		//TODO: call state
+		currentGunState.OnSight(hits, soldier);
 	}
 	
 	public void Heard(GameObject g, Soldier soldier){

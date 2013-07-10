@@ -14,6 +14,7 @@ public class Soldier : Person {
 	public AudioClip[] burstfireSounds;
 	private string alliesTag;
 	private FireTeam fireTeam;
+	private GameObject currentTarget;
 	
 	// Use this for initialization
 	public override void Start () {
@@ -25,10 +26,21 @@ public class Soldier : Person {
 	// Update is called once per frame
 	public override void Update () {
 		base.Update();
-		//FOR TESTING PURPOSES.
-		if(Input.GetKeyDown(KeyCode.Space)){
-			Shoot();
+		if(currentTarget != null){
+			transform.LookAt(currentTarget.transform.position);
+			RaycastHit hit;
+        	if(Physics.Raycast(transform.position, currentTarget.transform.position - transform.position, out hit)){
+				if(hit.transform.gameObject.tag.Equals("Terrorist")){		
+					Shoot();
+				}else{
+					currentTarget = null;
+				}
+			}
 		}
+		//FOR TESTING PURPOSES.
+//		if(Input.GetKeyDown(KeyCode.Space)){
+//			Shoot();
+//		}
 //		if(Input.GetKeyDown(KeyCode.G)){
 //			ThrowFragGrenade();
 //		}
@@ -65,7 +77,7 @@ public class Soldier : Person {
 		fireTeam.Heard(g, this);
 	}
 	
-	private void Shoot(){
+	public void Shoot(){
 		Ray ray = new Ray(transform.position, transform.forward);
 		RaycastHit hit;
 		if(Physics.Raycast(ray, out hit) && hit.collider.gameObject.tag!=alliesTag){
@@ -108,5 +120,14 @@ public class Soldier : Person {
 	
 	public void playShootSound(){
 		this.gameObject.GetComponent<AudioSource>().PlayOneShot(burstfireSounds[Random.Range(0,burstfireSounds.Length)]);
+	}
+
+	public GameObject CurrentTarget {
+		get {
+			return this.currentTarget;
+		}
+		set {
+			currentTarget = value;
+		}
 	}
 }
