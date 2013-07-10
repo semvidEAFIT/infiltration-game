@@ -60,15 +60,43 @@ public class Grid{
 	public Vector3[] FindPath(Vector3 origin, Vector3 target){
 		List<Vector3> path = new List<Vector3>();
 		target.y = origin.y;
-		RaycastHit hit;
-		if(Physics.Raycast(origin, (target - origin).normalized, Mathf.Abs((target - origin).magnitude))){
-			Node[] pathNodos = FindPath(GetClosestNode(origin), GetClosestNode(target));
-			foreach (Node n in pathNodos) {
-				path.Add(n.transform.position);
-			}
+		path.Add(origin);
+		
+		Node[] pathNodos = FindPath(GetClosestNode(origin), GetClosestNode(target));
+		foreach (Node n in pathNodos) {
+			Vector3 position = n.transform.position;
+			position.y = origin.y;
+			path.Add(position);
 		}
+		
+		target.y = origin.y;
 		path.Add(target);
 		
+		//check
+		for(int i = 1; i < path.Count - 1; i++){
+			bool canView = true;
+			
+			RaycastHit[] obstacles =  Physics.RaycastAll(path[i-1], (path[i+1] - path[i-1]).normalized, (path[i+1] - path[i-1]).magnitude);
+			foreach (RaycastHit obs in obstacles) {
+				if(obs.transform.gameObject.layer != LayerMask.NameToLayer("People") && obs.transform.gameObject.tag != "Node"){
+					canView = false;
+					break;
+					//Debug.Log(obs.transform.name);
+				}
+			}
+			
+			if(canView){
+				float currDistance = (path[i] - path[i-1]).magnitude + (path[i+1] - path[i]).magnitude;
+				float newDistance = (path[i+1] - path[i-1]).magnitude;
+				if(newDistance < currDistance){
+					path.RemoveAt(i);
+					//Debug.Log("Removed" + i);
+					i--;
+				}
+			}
+		}
+		
+		path.RemoveAt(0);
 		return path.ToArray();
 	}
 	

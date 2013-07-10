@@ -11,14 +11,14 @@ public class Person : MonoBehaviour {
 	private bool moving = false;
 	
 	private List<Vector3> last;
-	public float speed;
+	public float speed = 3000;
 	public float gravity = 200.0f;
 	
 	private Person following;
-	public float distanceFollow = 10.0f;
+	public float distanceFollow = 5.0f;
 	
 	private CharacterController cc;
-	public float distanceSnap = 10.0f;
+	public float distanceSnap = 5.0f;
 	private float healthPoints;
 	public float initialHealth = 5.0f;
 	
@@ -146,7 +146,7 @@ public class Person : MonoBehaviour {
 		if(cc.isGrounded){
 			
 			if(following != null){
-				destination = following.transform.position + (transform.position - following.transform.position).normalized * distanceFollow;
+				destination = following.transform.position - (following.transform.forward * distanceFollow);
 			}
 			
 			if(moving){
