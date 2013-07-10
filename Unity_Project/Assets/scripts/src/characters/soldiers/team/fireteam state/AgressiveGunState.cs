@@ -38,6 +38,7 @@ public class AgressiveGunState : GunState {
 		Debug.Log("damage");
 		foreach(Soldier tSoldier in team){
 			if(tSoldier != soldier && soldier.CurrentTarget == tSoldier.CurrentTarget){
+				soldier.IsChecking=true;
 				soldier.transform.LookAt(new Vector3 (source.x, soldier.transform.position.y, source.z));
 				soldier.CurrentTarget = null;
 			}
