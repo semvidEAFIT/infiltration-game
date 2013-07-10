@@ -89,7 +89,7 @@ public class Person : MonoBehaviour {
 	public void TakeDamage(float damage){
 		healthPoints -= damage;
 		
-		if (healthPoints<=0){
+		if (healthPoints <= 0){
 			//person dead
 			Destroy(this.gameObject);
 		}
@@ -146,9 +146,9 @@ public class Person : MonoBehaviour {
 	#endregion
 	
 	#region Senses
-	public void HearNoise(GameObject g){
+	public virtual void HearNoise(GameObject g){
 		StartCoroutine(TurnColor(Color.green));	
-	}	
+	}
 	
 	IEnumerator TurnColor(Color color){
 		Color c = renderer.material.color;
@@ -160,7 +160,7 @@ public class Person : MonoBehaviour {
 	public virtual void View(RaycastHit[] gs){
 		foreach(RaycastHit hit in gs){
 			Debug.DrawRay(transform.position, (hit.transform.position-transform.position).normalized * 20, Color.red);
-		}		
+		}
 	}
 	#endregion
 }

@@ -10,10 +10,11 @@ public class FireTeam : MonoBehaviour, ICommand {
 	
 	private Command lastCommand;
 	
-	// Use this for initialization
 	void Start () {
 		commands = new List<Command>();
-		
+		foreach(GameObject g in soldiers){
+			g.GetComponent<Soldier>().SetFireTeam(this);
+		}
 		//Go ();
 	}
 	
@@ -69,12 +70,19 @@ public class FireTeam : MonoBehaviour, ICommand {
 			AddCommand(new ClaymoreCommand(this));
 		}
 	}
-	
+
 	public void Go(){
 		ExecuteCommand();
 	}
 	
+	#region Movement
+	
+	public void Move(Vector3 targetPos){
+		MoveInLineFormation(targetPos);
+	}
+	
 	private void MoveInArrowFormation(Vector3 target){ //en cuña
+
 		Vector3 frontDir = (target - transform.position).normalized;
 		Vector3 sideDir = Vector3.Cross(frontDir,Vector3.up).normalized;
 		Vector3 soldier1Tar = target + frontDir*2;
@@ -138,9 +146,21 @@ public class FireTeam : MonoBehaviour, ICommand {
 		
 	}
 	
-	public void Move(Vector3 targetPos){
-		MoveInLineFormation(targetPos);
+	#endregion
+	
+	#region Reaction
+	
+	public void Sighted(RaycastHit[] hits, Soldier soldier){
+		//TODO: call state
 	}
+	
+	public void Heard(GameObject g, Soldier soldier){
+		//TODO: call state
+	}
+	
+	#endregion
+
+	#region Commands
 	public void AddCommand(Command command){
 		if (!commands.Contains(command)){
 			commands.Add(command);
@@ -175,4 +195,5 @@ public class FireTeam : MonoBehaviour, ICommand {
 	{
 		ExecuteCommand();
 	}
+	#endregion
 }
