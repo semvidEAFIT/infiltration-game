@@ -28,7 +28,7 @@ public class PathFindingTester : MonoBehaviour {
 
 	void DrawPath ()
 	{
-		Debug.Log("Drawing Path");
+		//Debug.Log("Drawing Path");
 		if(path != null){
 			foreach(Node n in path){
 				n.gameObject.renderer.material.color = Color.magenta;
@@ -39,7 +39,7 @@ public class PathFindingTester : MonoBehaviour {
 		path = Level.Instance.Grid.FindPath(s, d);
 		
 		foreach (Node n in path) {
-			Debug.Log(n.transform.position);
+			//Debug.Log(n.transform.position);
 			n.gameObject.renderer.material.color = pathColor;
 		}
 		

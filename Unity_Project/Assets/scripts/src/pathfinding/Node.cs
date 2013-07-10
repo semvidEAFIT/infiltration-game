@@ -17,6 +17,7 @@ public class Node : MonoBehaviour{
 	}
 	
 	public void FindNeighbors(List<Node> nodos){
+		//Debug.Log("Yeah");
 		foreach (Node n in nodos){
 			if (n.Equals(this)){
 				continue;

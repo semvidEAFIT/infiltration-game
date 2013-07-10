@@ -12,9 +12,12 @@ public class Person : MonoBehaviour {
 	
 	private List<Vector3> last;
 	public float speed;
-	//public GameObject follow;// se debe popner privado una vez se programe un rehen
+	public float gravity = 200.0f;
+	
+	private Person following;
+	public float distanceFollow = 10.0f;
+	
 	private CharacterController cc;
-	//public float distanceFollow = 6.0f;
 	public float distanceSnap = 10.0f;
 	private float healthPoints;
 	public float initialHealth = 5.0f;
@@ -128,18 +131,43 @@ public class Person : MonoBehaviour {
 		}
 	}
 	
+	public void Follow(Person p){
+		following = p;
+		moving = true;
+		route.Clear();
+	}
+	
+	public void StopFollowing(){
+		following = null;
+		moving = false;
+	}
+	
 	public virtual void Update(){
-		if(moving){
-			cc.SimpleMove((destination-transform.position).normalized * speed * Time.deltaTime);
-			if((destination-transform.position).sqrMagnitude < distanceSnap){
-				destination = Vector3.zero;		
-				moving = false;
+		if(cc.isGrounded){
+			
+			if(following != null){
+				destination = following.transform.position + (transform.position - following.transform.position).normalized * distanceFollow;
 			}
-		}
-		
-		if(!moving && route.Count > 0){
-			destination = route.Dequeue();
-			moving = true;
+			
+			if(moving){
+				Vector3 distance = (destination-transform.position);
+				distance.y = 0;
+				if(distance.sqrMagnitude < distanceSnap){
+					if(following == null){
+						destination = Vector3.zero;		
+						moving = false;
+					}
+				}else{
+					cc.SimpleMove(distance.normalized * speed * Time.deltaTime);
+				}
+			}else{
+				if(route.Count > 0){
+					destination = route.Dequeue();
+					moving = true;
+				}
+			}	
+		}else{
+			cc.SimpleMove(Vector3.down * gravity * Time.deltaTime);			
 		}
 	}
 	

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class Level : MonoBehaviour {
 	
-	private List<Node> nodos;
 	private static Level instance;
 
 	public static Level Instance {
@@ -40,7 +39,7 @@ public class Level : MonoBehaviour {
 
 	void MakeGrid ()
 	{
-		nodos = new List<Node>();
+		List<Node> nodos = new List<Node>();
 		GameObject[] gNodo = GameObject.FindGameObjectsWithTag("Node");
 		foreach(GameObject g in gNodo){
 			nodos.Add(g.GetComponent<Node>());	

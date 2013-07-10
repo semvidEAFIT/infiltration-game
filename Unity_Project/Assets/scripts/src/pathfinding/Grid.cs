@@ -34,9 +34,9 @@ public class Grid{
 		foreach(Node n in nodos){
 			adj[node2int[n], node2int[n]] = 0;
 			foreach (Node m in n.Neighbors) {
-				float sqrDistance = Mathf.Abs((m.transform.position - n.transform.position).sqrMagnitude);
-				adj[node2int[n], node2int[m]] = sqrDistance;
-				adj[node2int[m], node2int[n]] = sqrDistance;
+				float distance = Mathf.Abs((m.transform.position - n.transform.position).magnitude); //No usar la sqrt
+				adj[node2int[n], node2int[m]] = distance;
+				adj[node2int[m], node2int[n]] = distance;
 			}	
 		}
 	}
@@ -76,9 +76,7 @@ public class Grid{
 		for (int i = 0; i < d.Length; i++) {
 			d[i] = Mathf.Infinity;
 		}
-		
 		d[node2int[source]] = 0.0f;
-		
 		Node[] p = new Node[nodos.Count];
 		
 		//Dijkstra
@@ -94,18 +92,18 @@ public class Grid{
 				if(i != node2int[u] && adj[node2int[u], i] != Mathf.Infinity){	
 					//Relaxation
 					if(d[i] > d[node2int[u]] + adj[node2int[u], i]){
-						//Debug.Log("Contiene" + q.Contains(new KeyValuePair<float, Nodo>(d[i], nodos[i])));
+						//Debug.Log("Contiene" + q.Contains(new KeyValuePair<float, Node>(d[i], nodos[i])));
 						q.Remove(new KeyValuePair<float, Node>(d[i], nodos[i]));
 					
 						d[i] = d[node2int[u]] + adj[node2int[u], i];
 						p[i] = u;
-						
+						//Debug.Log(i + " " + d[i]);
 						//Update values
-						
 						q.Add(new KeyValuePair<float, Node>(d[i], nodos[i]));
 					}
 				}
 			}
+			//Debug.Log("Iteration" + node2int[u]);
 		}
 		
 		Stack<Node> path = new Stack<Node>();
