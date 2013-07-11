@@ -8,7 +8,7 @@ public class FlashbangCommand : Command {
 	
 	protected override void Execute ()
 	{
-		this.FireTeam.soldiers[0].GetComponent<Soldier>().ThrowFlashbang();
+		this.FireTeam.teammates[0].GetComponent<Soldier>().ThrowFlashbang();
 		NotifyCommandEnded();
 	}
 	

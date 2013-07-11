@@ -3,19 +3,18 @@ using System.Collections.Generic;
 
 public class FireTeam : MonoBehaviour, ICommand {
 	
-	public Soldier[] soldiers;
+	public Teammate[] teammates;
 	private Point point;
-	private FireTeamState state;
+	private GunState currentGunState;
 	private List<Command> commands;
-	
 	private Command lastCommand;
 	
 	void Start () {
+		currentGunState = new AgressiveGunState();
 		commands = new List<Command>();
-		foreach(Soldier s in soldiers){
-			s.SetFireTeam(this);
+		foreach(Teammate t in teammates){
+			t.SetFireTeam(this);
 		}
-		//Go ();
 	}
 	
 	// Update is called once per frame
@@ -41,19 +40,19 @@ public class FireTeam : MonoBehaviour, ICommand {
 		Vector3 soldier2Tar = target + (sideDir-frontDir)*4;
 		Vector3 soldier3Tar = target - (sideDir+frontDir)*4;
 		try {
-			soldiers[0].AddWayPoint(soldier1Tar);
+			teammates[0].AddWayPoint(soldier1Tar);
 		} catch {
 			//dead
 		}
 		
 		try{
-			soldiers[1].AddWayPoint(soldier2Tar);
+			teammates[1].AddWayPoint(soldier2Tar);
 		} catch (System.Exception ex) {
 			//dead
 		}
 		
 		try{
-			soldiers[2].AddWayPoint(soldier3Tar);
+			teammates[2].AddWayPoint(soldier3Tar);
 		} catch (System.Exception ex) {
 			//dead
 		}
@@ -96,11 +95,11 @@ public class FireTeam : MonoBehaviour, ICommand {
 			}
 		}*/
 		
-		Vector3[] path = Level.Instance.Grid.FindPath(soldiers[0].transform.position, target);
-		soldiers[1].Follow(soldiers[0]);
-		soldiers[2].Follow(soldiers[1]);
+		Vector3[] path = Level.Instance.Grid.FindPath(teammates[0].transform.position, target);
+		teammates[1].Follow(teammates[0]);
+		teammates[2].Follow(teammates[1]);
 		foreach (Vector3 destination in path) {
-			soldiers[0].AddWayPoint(destination);
+			teammates[0].AddWayPoint(destination);
 		}
 	}
 	
@@ -108,12 +107,16 @@ public class FireTeam : MonoBehaviour, ICommand {
 	
 	#region Reaction
 	
-	public void Sighted(RaycastHit[] hits, Soldier soldier){
-		//TODO: call state
+	public void Sighted(RaycastHit[] hits, Teammate teammate){
+		currentGunState.OnSight(hits, teammate, teammates);
 	}
 	
-	public void Heard(GameObject g, Soldier soldier){
-		//TODO: call state
+	public void Heard(GameObject g, Teammate teammate){
+		currentGunState.OnHear(g, teammate, teammates);
+	}
+	
+	public void TookDamage(Teammate teammate, Vector3 source){
+		currentGunState.OnTakeDamage(source, teammate, teammates);
 	}
 	
 	#endregion

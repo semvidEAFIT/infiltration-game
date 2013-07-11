@@ -20,7 +20,6 @@ public abstract class Gun {
 		this.owner = ownerGameObject;
 		this.accuracyDelta = gunAccuracyDelta;
 		this.shootingForce = gunShootingForce;
-		
 		this.particleSystem = owner.gameObject.GetComponentInChildren<ParticleEmitter>();
 	}
 
@@ -37,7 +36,7 @@ public abstract class Gun {
     	if(Physics.Raycast(ray, out hit)){
 			//TODO: SE DEBE DEFINIR TODA LA DINÁMICA DE DAMAGE INFLICTION (SEGUIRA CON COLLIDERS??).
 			try{
-				hit.collider.gameObject.GetComponent<Person>().TakeDamage(damage);
+				hit.collider.gameObject.GetComponent<Person>().TakeDamage(damage, owner.transform.position);
 			}
 			catch{
 				//TODO:	OTHERWISE...

@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 public class Soldier : Person {
 	
+	
+	private string alliesTag;
+	public string[] enemyTags;
 	public List<Item> items;
 	private Gun mainWeapon;
 	public int maxGunAmmo;
@@ -11,41 +14,41 @@ public class Soldier : Person {
 	public float bulletDamage;
 	public float accuracyDelta;
 	public float shootingForce;
+	public float burstDelay;
 	public AudioClip[] burstfireSounds;
-	private string alliesTag;
-	private FireTeam fireTeam;
-	
+	private GameObject currentTarget;
+	private bool canShoot;
+	private bool isChecking;
 	// Use this for initialization
 	public override void Start () {
 		base.Start();
 		mainWeapon = new SubmachineGun(this.gameObject, maxGunAmmo, initialGunMags, bulletDamage, accuracyDelta, shootingForce);
+		canShoot = true;
+		isChecking = false;
 		alliesTag = gameObject.tag;
 	}
 	
 	// Update is called once per frame
 	public override void Update () {
 		base.Update();
-		//FOR TESTING PURPOSES.
-//		if(Input.GetKeyDown(KeyCode.Space)){
-//			Shoot();
-//		}
-//		if(Input.GetKeyDown(KeyCode.G)){
-//			ThrowFragGrenade();
-//		}
-//		if(Input.GetKeyDown(KeyCode.F)){
-//			ThrowFlashbang();
-//		}
-//		if(Input.GetKeyDown(KeyCode.C)){
-//			PlantC4();
-//		}
-//		if(Input.GetKey(KeyCode.A)){
-//			transform.Translate(new Vector3(1, 0, 0));
-//		}
-	}
-	
-	public void SetFireTeam(FireTeam ft){
-		fireTeam = ft;
-	}
+		if(currentTarget != null){
+			RaycastHit hit;
+        	if(Physics.Raycast(transform.position, currentTarget.transform.position - transform.position, out hit)){
+				foreach(string enemyTag in enemyTags){
+					if(hit.transform.gameObject.tag.Equals(enemyTag)){
+						if(canShoot && mainWeapon.magsLeft > 0){
+							transform.LookAt(currentTarget.transform.position);
+							Shoot();
+							canShoot = false;
+							StartCoroutine("BurstDelay");
+						}
+					}else{
+						currentTarget = null;
+					}
+				}
+			}
+		}
+	} 
 	
 	void OnControllerColliderHit(ControllerColliderHit hit){
 		if(hit.collider.gameObject.tag.Equals("Intel")){
@@ -56,16 +59,21 @@ public class Soldier : Person {
 	public override void View(RaycastHit[] gs)
 	{
 		base.View(gs);
-		fireTeam.Sighted(gs, this);
 	}
 	
 	public override void HearNoise(GameObject g)
 	{
 		base.HearNoise (g);
-		fireTeam.Heard(g, this);
 	}
 	
-	private void Shoot(){
+	
+	public override void TakeDamage (float damage, Vector3 sourcePosition)
+	{
+		base.TakeDamage(damage, sourcePosition);
+	}
+	
+	public void Shoot(){
+		canShoot = false;
 		Ray ray = new Ray(transform.position, transform.forward);
 		RaycastHit hit;
 		if(Physics.Raycast(ray, out hit) && hit.collider.gameObject.tag!=alliesTag){
@@ -108,5 +116,53 @@ public class Soldier : Person {
 	
 	public void playShootSound(){
 		this.gameObject.GetComponent<AudioSource>().PlayOneShot(burstfireSounds[Random.Range(0,burstfireSounds.Length)]);
+	}
+
+	public GameObject CurrentTarget {
+		get {
+			return this.currentTarget;
+		}
+		set {
+			currentTarget = value;
+		}
+	}
+	
+	public IEnumerator BurstDelay(){
+		yield return new WaitForSeconds(burstDelay);
+		canShoot = true;
+	}
+	
+	public IEnumerator Check(){
+		yield return new WaitForSeconds(0.5f);
+		IsChecking = false;
+	}
+	
+	
+	
+	public bool IsChecking {
+		get {
+			return this.isChecking;
+		}
+		set {
+			isChecking = value;
+		}
+	}
+
+	public bool CanShoot {
+		get {
+			return this.canShoot;
+		}
+		set {
+			canShoot = value;
+		}
+	}
+
+	public string AlliesTag {
+		get {
+			return this.alliesTag;
+		}
+		set {
+			alliesTag = value;
+		}
 	}
 }

@@ -8,7 +8,7 @@ public class ClaymoreCommand : Command{
 	
 	protected override void Execute ()
 	{
-		this.FireTeam.soldiers[0].GetComponent<Soldier>().PlantClaymore();
+		this.FireTeam.teammates[0].GetComponent<Soldier>().PlantClaymore();
 		NotifyCommandEnded();
 	}
 	

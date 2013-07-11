@@ -8,7 +8,7 @@ public class MineCommand : Command {
 	
 	protected override void Execute ()
 	{
-		this.FireTeam.soldiers[0].GetComponent<Soldier>().PlantMine();
+		this.FireTeam.teammates[0].GetComponent<Soldier>().PlantMine();
 		NotifyCommandEnded();
 	}
 	
