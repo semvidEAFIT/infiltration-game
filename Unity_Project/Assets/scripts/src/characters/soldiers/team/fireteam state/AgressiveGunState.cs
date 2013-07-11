@@ -24,18 +24,19 @@ public class AgressiveGunState : GunState {
 
 	public override void OnHear (GameObject source, Soldier soldier, Soldier[] team)
 	{
-		foreach(Soldier tSoldier in team){
-			if(tSoldier != soldier && soldier.CurrentTarget == tSoldier.CurrentTarget){
-				soldier.IsChecking=true;
-				soldier.transform.LookAt(new Vector3(source.transform.position.x,soldier.transform.position.y,source.transform.position.z));
-				soldier.CurrentTarget = null;
+		if(source.gameObject.tag.Equals("Fireteam")){
+			foreach(Soldier tSoldier in team){
+				if(tSoldier != soldier && soldier.CurrentTarget == tSoldier.CurrentTarget){
+					soldier.IsChecking=true;
+					soldier.transform.LookAt(new Vector3(source.transform.position.x,soldier.transform.position.y,source.transform.position.z));
+					soldier.CurrentTarget = null;
+				}
 			}
 		}
 	}
 
 	public override void OnTakeDamage (Vector3 source, Soldier soldier, Soldier[] team)
 	{
-		Debug.Log("damage");
 		foreach(Soldier tSoldier in team){
 			if(tSoldier != soldier && soldier.CurrentTarget == tSoldier.CurrentTarget){
 				soldier.IsChecking=true;

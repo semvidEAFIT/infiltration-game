@@ -20,7 +20,6 @@ public abstract class Gun {
 		this.owner = ownerGameObject;
 		this.accuracyDelta = gunAccuracyDelta;
 		this.shootingForce = gunShootingForce;
-		
 		this.particleSystem = owner.gameObject.GetComponentInChildren<ParticleEmitter>();
 	}
 

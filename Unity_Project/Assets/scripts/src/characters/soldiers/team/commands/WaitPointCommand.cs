@@ -7,7 +7,7 @@ public class WaitPointCommand : Command, IPersonListener {
 	
 	public WaitPointCommand(FireTeam executor, Vector3 nextPos) : base(executor){
 		this.targetPos = nextPos;
-		executor.soldiers[0].GetComponent<Soldier>().AddIPersonListener(this);
+		executor.teammates[0].GetComponent<Soldier>().AddIPersonListener(this);
 	}
 	
 	protected override void Execute ()
