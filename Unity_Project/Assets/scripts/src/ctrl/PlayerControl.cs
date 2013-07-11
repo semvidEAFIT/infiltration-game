@@ -4,7 +4,7 @@ using System.Collections;
 public class PlayerControl : MonoBehaviour {
 	
 	private static PlayerControl instance;
-	public PlayerControl Instance {
+	public static PlayerControl Instance {
 		get {
 			return instance;
 		}
