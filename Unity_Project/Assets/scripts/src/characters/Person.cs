@@ -89,9 +89,9 @@ public class Person : MonoBehaviour {
 		
 	}*/
 	
-	public void TakeDamage(float damage){
+	public virtual void TakeDamage(float damage, Vector3 sourcePosition){
 		healthPoints -= damage;
-		
+		Debug.Log("damage");	
 		if (healthPoints <= 0){
 			//person dead
 			Destroy(this.gameObject);
@@ -146,7 +146,7 @@ public class Person : MonoBehaviour {
 		if(cc.isGrounded){
 			
 			if(following != null){
-				destination = following.transform.position + (transform.position - following.transform.position).normalized * distanceFollow;
+				destination = following.transform.position - (following.transform.forward * distanceFollow);
 			}
 			
 			if(moving){
@@ -159,6 +159,9 @@ public class Person : MonoBehaviour {
 					}
 				}else{
 					cc.SimpleMove(distance.normalized * speed * Time.deltaTime);
+					Vector3 lookingPos = destination;
+					lookingPos.y = transform.position.y;
+					transform.LookAt(lookingPos);
 				}
 			}else{
 				if(route.Count > 0){
@@ -175,15 +178,15 @@ public class Person : MonoBehaviour {
 	
 	#region Senses
 	public virtual void HearNoise(GameObject g){
-		StartCoroutine(TurnColor(Color.green));	
+		//StartCoroutine(TurnColor(Color.green));	
 	}
 	
-	IEnumerator TurnColor(Color color){
-		Color c = renderer.material.color;
-		renderer.material.color = color;
-		yield return new WaitForSeconds(3.0f);
-		renderer.material.color = c;
-	}
+	//IEnumerator TurnColor(Color color){	
+	//	Color c = renderer.material.color;
+	//	renderer.material.color = color;
+	//	yield return new WaitForSeconds(3.0f);
+	//	renderer.material.color = c;
+//	}
 	
 	public virtual void View(RaycastHit[] gs){
 		foreach(RaycastHit hit in gs){

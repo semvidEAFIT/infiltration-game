@@ -22,7 +22,7 @@ public class Claymore : Explosive {
 	protected override void Explode(){
 		Collider [] hitColliders = Physics.OverlapSphere(transform.position, AOERadius, layerAffected);
         foreach (Collider c in hitColliders) {
-            c.GetComponent<Person>().TakeDamage(damage);
+            c.GetComponent<Person>().TakeDamage(damage, transform.position);
         }
 		Destroy(this.gameObject);
 	}

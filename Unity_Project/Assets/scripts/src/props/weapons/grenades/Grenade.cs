@@ -30,6 +30,7 @@ public abstract class Grenade : Explosive {
 	
 	protected override void Explode ()
 	{
+		GetComponent<NoiseMaker>().MakeNoise();
 		exploded=true;
 		
 		this.gameObject.GetComponent<AudioSource>().PlayOneShot(activateSounds[Random.Range(0, activateSounds.Length)]);

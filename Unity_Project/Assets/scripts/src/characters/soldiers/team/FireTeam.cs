@@ -5,17 +5,16 @@ public class FireTeam : MonoBehaviour, ICommand {
 	
 	public Soldier[] soldiers;
 	private Point point;
-	private FireTeamState state;
+	private GunState currentGunState;
 	private List<Command> commands;
-	
 	private Command lastCommand;
 	
 	void Start () {
+		currentGunState = new AgressiveGunState();
 		commands = new List<Command>();
 		foreach(Soldier s in soldiers){
 			s.SetFireTeam(this);
 		}
-		//Go ();
 	}
 	
 	// Update is called once per frame
@@ -109,11 +108,15 @@ public class FireTeam : MonoBehaviour, ICommand {
 	#region Reaction
 	
 	public void Sighted(RaycastHit[] hits, Soldier soldier){
-		//TODO: call state
+		currentGunState.OnSight(hits, soldier, soldiers);
 	}
 	
 	public void Heard(GameObject g, Soldier soldier){
-		//TODO: call state
+		currentGunState.OnHear(g, soldier, soldiers);
+	}
+	
+	public void TookDamage(Soldier soldier, Vector3 source){
+		currentGunState.OnTakeDamage(source, soldier, soldiers);
 	}
 	
 	#endregion
