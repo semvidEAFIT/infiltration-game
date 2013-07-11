@@ -17,7 +17,7 @@ public class IntelCommand : Command, IPersonListener {
 	protected override void Execute ()
 	{
 		//TODO: ALways in line formation?
-		this.FireTeam.MoveInLineFormation(targetPos);
+		this.FireTeam.Move(targetPos);
 		//NotifyCommandEnded();
 	}
 	

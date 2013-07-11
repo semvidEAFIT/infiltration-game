@@ -5,10 +5,11 @@ public class C4 : Explosive {
 	
 	public float time;
 	private float timeElapsed;
+	private bool exploded=false;
 	
 	void Update(){
 		timeElapsed += Time.deltaTime;
-		if(timeElapsed >= time){
+		if(timeElapsed >= time && !exploded){
 			Explode();
 		}
 	}
@@ -19,6 +20,11 @@ public class C4 : Explosive {
 	}
 
 	protected override void Explode (){
+		exploded=true;
+		this.gameObject.GetComponent<AudioSource>().PlayOneShot(activateSounds[Random.Range(0, activateSounds.Length)]);
+		this.renderer.enabled=false;
+		Destroy(this.gameObject, 4);
+		
 		Collider [] hitColliders = Physics.OverlapSphere(transform.position, AOERadius, layerAffected);
 		foreach (Collider c in hitColliders) {
 			string t = c.collider.gameObject.tag;
@@ -26,7 +32,7 @@ public class C4 : Explosive {
 				c.gameObject.GetComponent<Door>().Breach();
 			} else {
 				if(t.Equals("Terrorist") || t.Equals("Fireteam") || t.Equals("Hostages")){
-					c.gameObject.GetComponent<Person>().TakeDamage(damage);
+					c.gameObject.GetComponent<Person>().TakeDamage(damage, transform.position);
 				}
 			}
 		}

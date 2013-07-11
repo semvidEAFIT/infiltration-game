@@ -5,7 +5,8 @@ public class FragGrenade : Grenade {
 
 	protected override void ApplyDamage(Collider[] inRange){
         foreach (Collider c in inRange) {
-            c.GetComponent<Person>().TakeDamage(damage);
+		Debug.Log("damage");
+            c.GetComponent<Person>().TakeDamage(damage,transform.position);
         }
 	}
 }
