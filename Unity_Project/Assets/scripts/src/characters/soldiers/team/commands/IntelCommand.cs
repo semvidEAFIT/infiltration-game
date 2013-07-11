@@ -11,7 +11,7 @@ public class IntelCommand : Command, IPersonListener {
 		this.targetPos = nextPos;
 		this.intel = intel;
 		this.executor = executor;
-		executor.soldiers[0].GetComponent<Soldier>().AddIPersonListener(this);
+		executor.teammates[0].GetComponent<Soldier>().AddIPersonListener(this);
 	}
 	
 	protected override void Execute ()

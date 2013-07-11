@@ -7,7 +7,7 @@ public class MoveCommand : Command, IPersonListener {
 	
 	public MoveCommand(FireTeam executor, Vector3 nextPos) : base(executor){
 		this.targetPos = nextPos;
-		executor.soldiers[0].GetComponent<Soldier>().AddIPersonListener(this);
+		executor.teammates[0].GetComponent<Teammate>().AddIPersonListener(this);
 	}
 	
 	protected override void Execute ()

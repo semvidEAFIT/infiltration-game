@@ -91,11 +91,14 @@ public class Person : MonoBehaviour {
 	
 	public virtual void TakeDamage(float damage, Vector3 sourcePosition){
 		healthPoints -= damage;
-		Debug.Log("damage");	
 		if (healthPoints <= 0){
 			//person dead
 			Destroy(this.gameObject);
 		}
+	}
+	
+	public virtual void Blind(float blindForSeconds){
+		//Debug.Log("AH! I'M A BLIND SOLDIER!");
 	}
 
 	

@@ -8,7 +8,7 @@ public class FragGrenadeCommand : Command {
 	
 	protected override void Execute ()
 	{
-		this.FireTeam.soldiers[0].GetComponent<Soldier>().ThrowFragGrenade();
+		this.FireTeam.teammates[0].GetComponent<Soldier>().ThrowFragGrenade();
 		NotifyCommandEnded();
 	}
 	

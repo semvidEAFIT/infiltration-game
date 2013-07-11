@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-[RequireComponent (typeof(Person))]
+[RequireComponent (typeof(Person))]	
 public class View : MonoBehaviour {
 	
 	private Person viewer;

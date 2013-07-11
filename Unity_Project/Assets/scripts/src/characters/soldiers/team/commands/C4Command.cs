@@ -8,7 +8,7 @@ public class C4Command : Command{
 	
 	protected override void Execute ()
 	{
-		this.FireTeam.soldiers[0].GetComponent<Soldier>().PlantC4();
+		this.FireTeam.teammates[0].GetComponent<Soldier>().PlantC4();
 		NotifyCommandEnded();
 	}
 	
