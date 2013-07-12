@@ -5,9 +5,9 @@ using System.Collections.Generic;
 
 public class Person : MonoBehaviour {
 	
-	private Queue<Vector3> route;
+	protected Queue<Vector3> route;
 	
-	private Vector3 destination;
+	protected Vector3 destination;
 	private bool moving = false;
 	
 	private List<Vector3> last;
