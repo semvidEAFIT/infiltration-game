@@ -14,7 +14,7 @@ public class Person : MonoBehaviour {
 	public float speed = 3000;
 	public float gravity = 200.0f;
 	
-	private Person following;
+	protected Person following;
 	public float distanceFollow = 5.0f;
 	
 	private CharacterController cc;
@@ -201,7 +201,7 @@ public class Person : MonoBehaviour {
 	// this script pushes all rigidbodies that the character touches
 	float pushPower = 50.0f;
  
-	public void OnControllerColliderHit (ControllerColliderHit hit) {
+	public  void OnControllerColliderHit (ControllerColliderHit hit) {
 	    Rigidbody body = hit.collider.attachedRigidbody;
 	 
 	    // no rigidbody
