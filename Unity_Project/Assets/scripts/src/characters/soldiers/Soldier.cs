@@ -30,7 +30,7 @@ public class Soldier : Person {
 	
 	// Update is called once per frame
 	public override void Update () {
-		base.Update();
+			base.Update();
 		if(currentTarget != null){
 			RaycastHit hit;
         	if(Physics.Raycast(transform.position, currentTarget.transform.position - transform.position, out hit)){
