@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
+//Hay un problema cuando los nodos estan alineados
 public class Node : MonoBehaviour{
 	
 	private List<Node> neighbors;
@@ -25,7 +26,7 @@ public class Node : MonoBehaviour{
       		RaycastHit hit;
         	if(Physics.Raycast(transform.position,n.transform.position - transform.position, out hit)){
 				//Debug.Log(hit.collider.gameObject.transform.name);
-				if(hit.collider.gameObject.transform.tag.Equals("Node")){
+				if(hit.transform.GetComponent<Node>() != null){
 					neighbors.Add(n);
 					n.AddNeighbor(this);
 				}
