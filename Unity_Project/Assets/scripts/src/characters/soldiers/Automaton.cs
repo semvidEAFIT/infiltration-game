@@ -33,7 +33,7 @@ public class Automaton : Soldier {
 	// Update is called once per frame
 	public override void Update () {
 		if(!IsChecking){
-			if(routine.Length == 1){
+			if(routine.Length == 1 && CurrentTarget == null){
 				transform.LookAt(looking);
 			}
 			base.Update();
