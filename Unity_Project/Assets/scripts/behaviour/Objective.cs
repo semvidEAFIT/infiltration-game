@@ -11,11 +11,11 @@ public class Objective : MonoBehaviour {
 		Level.Instance.ObjectiveDone();
 	}
 	
-	void OnDestroy(){
-		ObjectiveDone();
-	}
-	
 	public void Get(){
 		Destroy(this.gameObject);
+	}
+	
+	public void ObjectiveFail(){
+		//TODO: 
 	}
 }
