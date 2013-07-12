@@ -41,8 +41,12 @@ public class Level : MonoBehaviour {
 	{
 		List<Node> nodos = new List<Node>();
 		GameObject[] gNodo = GameObject.FindGameObjectsWithTag("Node");
+		GameObject[] gDoor = GameObject.FindGameObjectsWithTag("Door");
 		foreach(GameObject g in gNodo){
 			nodos.Add(g.GetComponent<Node>());	
+		}
+		foreach (GameObject door in gDoor) {
+			nodos.Add((Node)door.GetComponent<Door>());
 		}
 		this.grid = new Grid(nodos);
 	}
