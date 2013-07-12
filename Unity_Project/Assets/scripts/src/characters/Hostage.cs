@@ -25,7 +25,6 @@ public class Hostage : Person {
 			saved = true;
 			Destroy(this.gameObject);
 		}else if(other.transform.parent.tag.Equals("Fireteam") && following == null){
-			Debug.Log(other.transform.parent.parent.GetComponent<FireTeam>().teammates[other.transform.parent.parent.GetComponent<FireTeam>().teammates.Length-1]);
 			Follow(other.transform.parent.parent.GetComponent<FireTeam>().teammates[other.transform.parent.parent.GetComponent<FireTeam>().teammates.Length-1]);
 		}
     }

@@ -24,7 +24,7 @@ public class AgressiveGunState : GunState {
 
 	public override void OnHear (GameObject source, Soldier soldier, Soldier[] team)
 	{
-		if(source.gameObject.tag.Equals("Fireteam")){
+		if(!source.gameObject.tag.Equals("Fireteam")){
 			foreach(Soldier tSoldier in team){
 				if(tSoldier != soldier && soldier.CurrentTarget == tSoldier.CurrentTarget){
 					soldier.IsChecking=true;
