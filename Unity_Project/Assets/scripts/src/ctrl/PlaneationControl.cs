@@ -115,12 +115,12 @@ public class PlaneationControl : MonoBehaviour {
 			GUI.EndGroup();	
 		}
 		
-		float r = 21*Screen.height/46;
+		float r = (0.75f)*(21*Screen.height/46);
 		if(GUI.Button(new Rect(0, Screen.height - r, r, r), "Restart")){
 			
 		}
 		if(GUI.Button(new Rect(Screen.width - r, Screen.height - r, r, r), "Execute")){
-			
+			PlayerControl.Instance.Phase = PlayerControl.GamePhase.Execution;
 		}
 	}
 	

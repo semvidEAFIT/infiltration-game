@@ -4,14 +4,16 @@ using System.Collections;
 public class ExecutionControl : MonoBehaviour {
 	
 	public FireTeam[] teams;
-	private int selectedTeam;
+	private int selectedTeam = 0;
 	
 	private void NextTeam(){
-		
+		selectedTeam++;
+		selectedTeam = selectedTeam % teams.Length;
 	}
 	
 	private void PreviousTeam(){
-		
+		selectedTeam--;
+		selectedTeam = selectedTeam % teams.Length;
 	}
 	
 	private void Go(){
