@@ -6,41 +6,34 @@ public class AlphaButton : MonoBehaviour {
 	
 	#region Variables
 	
-	private bool pressed, down, released, enter, exit;
+	private bool pressed, down, released, enter, exit, over;
 
-	private bool Down {
+	public bool Over {
+		get {
+			return this.over;
+		}
+	}
+	public bool Down {
 		get {
 			return this.down;
 		}
-		set {
-			down = value;
-		}
 	}
 
-	private bool Enter {
+	public bool Enter {
 		get {
 			return this.enter;
 		}
-		set {
-			enter = value;
-		}
 	}
 
-	private bool Exit {
+	public bool Exit {
 		get {
 			return this.exit;
 		}
-		set {
-			exit = value;
-		}
 	}
 
-	private bool Pressed {
+	public bool Pressed {
 		get {
 			return this.pressed;
-		}
-		set {
-			pressed = value;
 		}
 	}
 
@@ -48,14 +41,13 @@ public class AlphaButton : MonoBehaviour {
 		get {
 			return this.released;
 		}
-		set {
-			released = value;
-		}
-	}	
+	}
 	
-	public float alpha = 5.0f;
+	public float alpha = 0.5f;
 	
-	public bool inverse = false;
+	//public bool inverse = false; TODO: Buttons with inside alpha
+	
+	public bool notifyPressed = false, notifyOver = false;	
 	
 	private Texture2D texture;
 	
@@ -81,75 +73,81 @@ public class AlphaButton : MonoBehaviour {
 	
 	private bool CheckAlpha(Vector2 pos){
 		Color pixelColor = texture.GetPixel((int)pos.x, (int)pos.y);
-		return pixelColor.a > 0.5f && !inverse;
+		//Debug.Log(pixelColor.a);
+		return pixelColor.a > alpha;
 	}
 	
 	void Update(){
-		if(Down || Pressed || Released || Enter || Exit){
+		if(Down || (Pressed && notifyPressed) || Released || Enter || Exit || (Over && notifyOver)){
 			NotifyAllListeners();
 		}
 	}
 	
 	#region Event Triggers
 	void OnMouseDown(){
+		//Debug.Log("*Down");
 		Vector2 pos = Vector2.zero;
 		if(GetHit(ref pos)){
-			if(CheckAlpha(pos)){
-				Down = true;
-				Pressed =true;
+			if(CheckAlpha(pos)&&!pressed){
+				down = true;
+				pressed =true;
 			}
 		}
 	}
 	
 	void OnMouseUp(){
+		//Debug.Log("*Up");
 		Vector2 pos = Vector2.zero;
 		if(GetHit(ref pos)){
-			if(CheckAlpha(pos)){
-				Released = true;
-				Pressed = false;
+			if(CheckAlpha(pos) && pressed){
+				released = true;
+				pressed = false;
 			}
 		}
 	}
 	
 	void OnMouseEnter(){
+		//Debug.Log("*Enter");
 		Vector2 pos = Vector2.zero;
 		if(GetHit(ref pos)){
 			if(CheckAlpha(pos)){
-				Enter = true;
+				enter = true;
+				over = true;
 			}
 		}
 	}
 	
 	void OnMouseExit(){
-		Exit = true;
-		Pressed = false;
-		Released=false;
-		Down = false;
-		Enter = false;
+		//Debug.Log("*Exit");
+		if(Over){
+			exit = true;
+		}
+		pressed = false;
+		released=false;
+		down = false;
+		enter = false;
 	}
 	
 	void OnMouseOver(){
+		//Debug.Log("*Over");
 		Vector2 pos = Vector2.zero;
 		if(GetHit(ref pos)){
 			if(CheckAlpha(pos)){
-				if(!enter){
-					Enter = true;
-					Pressed = true;
+				if(!Over){
+					enter = true;
+					over = true;
 				}
 			}else{
-				if(!exit){
-					Exit = true;
-					Pressed = false;
-					Released = false;
-					Down = false;
-					Enter = false;
+				if(Over){
+					exit = true;
+					over = false;
+					pressed = false;
+					released = false;
+					down = false;
+					enter = false;
 				}
 			}
 		}
-		Enter = false;
-		Exit = false;
-		Down = false;
-		Released = false;
 	}
 	#endregion
 	
@@ -159,13 +157,33 @@ public class AlphaButton : MonoBehaviour {
 	}
 	
 	private void NotifyAllListeners(){
+		#region Debug
+		/*if(Pressed && notifyPressed){
+			Debug.Log("Pressed");
+		}
+		if(Enter){
+			Debug.Log("Enter");
+		}
+		if(Exit){
+			Debug.Log("Exit");
+		}
+		if(Released){
+			Debug.Log("Released");
+		}
+		if(Down){
+			Debug.Log("Down");
+		}
+		if(Over && notifyOver){
+			Debug.Log("Over");
+		}*/
+		#endregion
 		foreach (IButtonListener listener in listeners) {
 			listener.UpdateButton(this);
 		}
-		Enter = false;
-		Exit = false;
-		Down = false;
-		Released = false;
+		enter = false;
+		exit = false;
+		down = false;
+		released = false;
 	}
 	#endregion
 }
