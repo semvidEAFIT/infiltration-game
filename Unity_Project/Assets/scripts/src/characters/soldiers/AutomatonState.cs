@@ -14,9 +14,20 @@ public class AutomatonState {
 		}
 	}
 	
+	
+	
 	public void OnHear(GameObject source, Automaton au){
-		au.transform.LookAt(new Vector3 (source.transform.position.x, au.transform.position.y,source.transform.position.z));
-		//au.StartCoroutine("Check", new Vector3 (source.transform.position.x, au.transform.position.y,source.transform.position.z) );
+		if(au.CurrentTarget==null && !au.IsChecking){
+			if(!au.agresive){
+				au.transform.LookAt(new Vector3 (source.transform.position.x, au.transform.position.y,source.transform.position.z));
+				au.IsChecking = true;
+				au.StartCoroutine("CheckNoise");
+			}else{
+				au.SaveIndex();
+				au.ClearQue(source.transform.position);
+				au.StartCoroutine("Going");
+			}
+		}
 	}
 	
 	public void OnTakeDamage(Vector3 source, Automaton au){

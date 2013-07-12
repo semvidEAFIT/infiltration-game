@@ -24,7 +24,7 @@ public class Node : MonoBehaviour{
 			}
       		RaycastHit hit;
         	if(Physics.Raycast(transform.position,n.transform.position - transform.position, out hit)){
-				//Debug.Log(hit.collider.gameObject.transform.name);
+//				Debug.Log(hit.collider.gameObject.transform.name);
 				if(hit.collider.gameObject.transform.tag.Equals("Node")){
 					neighbors.Add(n);
 					n.AddNeighbor(this);
