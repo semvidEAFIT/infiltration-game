@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using PriorityQueueDemo;
+using System;
 
 public class Grid{
 	
@@ -34,7 +35,7 @@ public class Grid{
 		foreach(Node n in nodos){
 			adj[node2int[n], node2int[n]] = 0;
 			foreach (Node m in n.Neighbors) {
-				float distance = Mathf.Abs((m.transform.position - n.transform.position).magnitude); //No usar la sqrt
+				float distance = (n is Door || m is Door)?Mathf.Infinity:Mathf.Abs((m.transform.position - n.transform.position).magnitude);
 				adj[node2int[n], node2int[m]] = distance;
 				adj[node2int[m], node2int[n]] = distance;
 			}	
@@ -143,11 +144,22 @@ public class Grid{
 		Node prev = destination;
 		
 		while(prev != source){
+			if(d[node2int[prev]] == Mathf.Infinity){
+				throw new Exception("Unreachable node");
+			}
 			path.Push(prev);
 			prev = p[node2int[prev]];
 		}
 		
 		path.Push(source);
 		return path.ToArray();
+	}
+	
+	public void OpenDoor(Door d){
+		foreach (Node n in d.Neighbors) {
+			float distance = Mathf.Abs((d.transform.position - n.transform.position).magnitude);
+			adj[node2int[n], node2int[d]] = distance;
+			adj[node2int[d], node2int[n]] = distance;
+		}
 	}
 }

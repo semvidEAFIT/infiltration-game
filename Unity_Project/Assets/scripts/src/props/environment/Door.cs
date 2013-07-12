@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Door : MonoBehaviour {
+public class Door : Node {
 	
 	public bool locked;
 
@@ -12,18 +12,14 @@ public class Door : MonoBehaviour {
 		}
 	}
 	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-	
 	public void Breach(){
 		Destroy(this.gameObject);
 	}
 	
 	public void Open(){
-		this.transform.RotateAroundLocal(new Vector3(0, 1, 0), (Mathf.PI / 2));
+		//this.transform.RotateAroundLocal(new Vector3(0, 1, 0), (Mathf.PI / 2));
 		//TODO: set "open" material.
+		locked = false;
 	}
 	
 	

@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
+//Hay un problema cuando los nodos estan alineados
 public class Node : MonoBehaviour{
 	
 	private List<Node> neighbors;
@@ -17,15 +18,19 @@ public class Node : MonoBehaviour{
 	}
 	
 	public void FindNeighbors(List<Node> nodos){
-		//Debug.Log("Yeah");
+		Debug.Log(transform.name + "-----------------" + this);
 		foreach (Node n in nodos){
+			//Debug.Log(n.transform.name);
 			if (n.Equals(this)){
 				continue;
 			}
       		RaycastHit hit;
-        	if(Physics.Raycast(transform.position,n.transform.position - transform.position, out hit)){
-//				Debug.Log(hit.collider.gameObject.transform.name);
-				if(hit.collider.gameObject.transform.tag.Equals("Node")){
+			
+        	if(Physics.Raycast(new Ray(transform.position, (n.transform.position - transform.position).normalized), out hit, (n.transform.position - transform.position).magnitude)){
+				Debug.Log(hit.transform.gameObject.name);
+				//Debug.Log((bool)hit.transform.GetComponent<Node>());
+				if(n.Equals(hit.collider.GetComponent<Node>())){
+					//Debug.Log("Yeah");
 					neighbors.Add(n);
 					n.AddNeighbor(this);
 				}
