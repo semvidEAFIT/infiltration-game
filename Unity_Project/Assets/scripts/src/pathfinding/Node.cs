@@ -25,6 +25,7 @@ public class Node : MonoBehaviour{
 				continue;
 			}
       		RaycastHit hit;
+			
         	if(Physics.Raycast(new Ray(transform.position, (n.transform.position - transform.position).normalized), out hit, (n.transform.position - transform.position).magnitude)){
 				Debug.Log(hit.transform.gameObject.name);
 				//Debug.Log((bool)hit.transform.GetComponent<Node>());
