@@ -8,7 +8,17 @@ public class FireTeam : MonoBehaviour, ICommand {
 	private GunState currentGunState;
 	private List<Command> commands;
 	private Command lastCommand;
-	
+	private bool useSilencer;
+
+	public bool UseSilencer {
+		get {
+			return this.useSilencer;
+		}
+		set {
+			useSilencer = value;
+			//TODO:Use silencer
+		}
+	}	
 	void Start () {
 		currentGunState = new AgressiveGunState();
 		commands = new List<Command>();
@@ -24,6 +34,10 @@ public class FireTeam : MonoBehaviour, ICommand {
 
 	public void Go(){
 		ExecuteCommand();
+	}
+	
+	public void Stop(){
+		
 	}
 	
 	#region Movement

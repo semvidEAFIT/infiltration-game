@@ -17,15 +17,33 @@ public class ExecutionControl : MonoBehaviour {
 	}
 	
 	private void Go(){
-		
+		if(selectedTeam == teams.Length){
+			foreach (FireTeam team in teams) {
+				team.Go();
+			}
+		}else{
+			teams[selectedTeam].Go();
+		}
 	}
 	
 	private void Stop(){
-		
+		if(selectedTeam == teams.Length){
+			foreach (FireTeam team in teams) {
+				team.Stop();
+			}
+		}else{
+			teams[selectedTeam].Stop();
+		}
 	}
 	
 	private void UseSilencers(bool on){
-		
+		if(selectedTeam == teams.Length){
+			foreach (FireTeam team in teams) {
+				team.UseSilencer = on;
+			}
+		}else{
+			teams[selectedTeam].UseSilencer = on;
+		}
 	}
 	
 	void OnGUI(){
