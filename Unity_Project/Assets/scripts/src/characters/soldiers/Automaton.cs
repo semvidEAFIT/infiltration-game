@@ -13,7 +13,7 @@ public class Automaton : Soldier {
 	// Use this for initialization
 	public override void Start () {
 		base.Start();
-		looking = transform.forward;
+		looking = new Vector3 (transform.position.x+transform.forward.x,transform.position.y,transform.position.z+transform.forward.z);
 		CanShoot = true;
 		autoState = new AutomatonState();
 		if(routinePoints.Length==0){
@@ -41,6 +41,7 @@ public class Automaton : Soldier {
 		if(route.Count==0 && !going){
 			Enque();
 		}
+		
 	}
 	
 	private void Enque(){
