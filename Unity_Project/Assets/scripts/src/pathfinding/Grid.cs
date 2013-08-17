@@ -79,7 +79,7 @@ public class Grid{
 			
 			RaycastHit[] obstacles =  Physics.RaycastAll(path[i-1], (path[i+1] - path[i-1]).normalized, (path[i+1] - path[i-1]).magnitude);
 			foreach (RaycastHit obs in obstacles) {
-				if(obs.transform.gameObject.layer != LayerMask.NameToLayer("People") && obs.transform.gameObject.tag != "Node"){
+				if( obs.transform.gameObject.tag != "Node"){
 					canView = false;
 					break;
 					//Debug.Log(obs.transform.name);
