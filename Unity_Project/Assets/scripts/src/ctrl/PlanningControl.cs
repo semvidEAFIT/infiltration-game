@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class PlaneationControl : MonoBehaviour {
+public class PlanningControl : MonoBehaviour {
 
 	private bool menuActive = false;
 	private Vector2 rigthClickPos;
