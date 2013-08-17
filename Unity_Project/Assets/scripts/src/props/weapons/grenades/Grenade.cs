@@ -3,10 +3,12 @@ using System.Collections;
 
 public abstract class Grenade : Explosive {
 
-	public float time;
-	public float strength;
+	public float time = 4;
+	public float strength = 1000;
+	public float deaccelerationRate = 1f; 
 	private float timeElapsed;
-	private bool exploded=false;
+	private bool exploded = false;
+	private bool deaccelerated=false;
 	
 	void Start(){
 		timeElapsed = 0.0f;
@@ -14,6 +16,12 @@ public abstract class Grenade : Explosive {
 
 	void Update(){
 		timeElapsed += Time.deltaTime;
+		
+		if (timeElapsed >= 1 && !deaccelerated){
+			deaccelerated=true;
+			this.rigidbody.AddForce(-transform.forward * (strength*deaccelerationRate));
+		}
+		
 		if(timeElapsed >= time && !exploded){
 			Explode();
 		}
@@ -30,6 +38,8 @@ public abstract class Grenade : Explosive {
 	
 	protected override void Explode ()
 	{
+		timeElapsed=0;
+		
 		GetComponent<NoiseMaker>().MakeNoise();
 		exploded=true;
 		

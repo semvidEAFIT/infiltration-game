@@ -34,10 +34,10 @@ public class PlayerControl : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		if(phase == GamePhase.Planning){
-			GetComponent<PlaneationControl>().enabled = true;
+			GetComponent<PlanningControl>().enabled = true;
 			GetComponent<ExecutionControl>().enabled = false;
 		}else{
-			GetComponent<PlaneationControl>().enabled = false;
+			GetComponent<PlanningControl>().enabled = false;
 			GetComponent<ExecutionControl>().enabled = true;
 		}
 	}
