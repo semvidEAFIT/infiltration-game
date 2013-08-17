@@ -138,6 +138,7 @@ public class FireTeam : MonoBehaviour, ICommand {
 	#region Commands
 	public void AddCommand(Command command){
 		if (!commands.Contains(command)){
+			Debug.Log(command);
 			commands.Add(command);
 			command.AddICommand(this);
 		}

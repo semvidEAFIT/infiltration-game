@@ -18,7 +18,7 @@ public class Node : MonoBehaviour{
 	}
 	
 	public void FindNeighbors(List<Node> nodos){
-		Debug.Log(transform.name + "-----------------" + this);
+		//Debug.Log(transform.name + "-----------------" + this);
 		foreach (Node n in nodos){
 			//Debug.Log(n.transform.name);
 			if (n.Equals(this)){
@@ -27,7 +27,7 @@ public class Node : MonoBehaviour{
       		RaycastHit hit;
 			
         	if(Physics.Raycast(new Ray(transform.position, (n.transform.position - transform.position).normalized), out hit, (n.transform.position - transform.position).magnitude)){
-				Debug.Log(hit.transform.gameObject.name);
+				//Debug.Log(hit.transform.gameObject.name);
 				//Debug.Log((bool)hit.transform.GetComponent<Node>());
 				if(n.Equals(hit.collider.GetComponent<Node>())){
 					//Debug.Log("Yeah");
