@@ -64,10 +64,13 @@ public class PlanningControl : MonoBehaviour {
 					//Debug.Log(hit.transform.tag);
 					if(hit.transform.tag == "Floor"){
 						CallCommand(CommandEnum.Move, hit);	
-					}
-					if(hit.transform.tag == "Fireteam"){
-						team = hit.transform.parent.GetComponent<FireTeam>();
-						//Debug.Log(team);
+					}else{
+						if(hit.transform.tag == "Fireteam"){
+							team = hit.transform.parent.GetComponent<FireTeam>();
+							//Debug.Log(team);
+						}else{
+							CallCommand(CommandEnum.Move, hit);
+						}
 					}
 				}
 			}
@@ -161,10 +164,39 @@ public class PlanningControl : MonoBehaviour {
 	
 	public void CallCommand(CommandEnum requested, RaycastHit clicked){
 		if(clicked.Equals(null) || team == null) return;
-		
-		switch(requested){
+		switch((CommandEnum)requested){
 			case CommandEnum.Move:
 				team.AddCommand(new MoveCommand(team, clicked.transform.position));
+				break;
+			case CommandEnum.ArmMine:
+				team.AddCommand(new MineCommand(team));
+				break;
+			case CommandEnum.BlowDoor:
+				throw new System.NotImplementedException("BlowDoor");
+				break;
+			case CommandEnum.BlowWindow:
+				throw new System.NotImplementedException("BlowWindow");
+				break;
+			case CommandEnum.CoverHostage:
+				throw new System.NotImplementedException("CoverHostage");
+				break;
+			case CommandEnum.ForceDoor:
+				throw new System.NotImplementedException("ForceDoor");
+				break;
+			case CommandEnum.OpenDoor:
+				team.AddCommand(new DoorCommand(team, clicked.transform.gameObject));
+				break;
+			case CommandEnum.OpenWindow:
+				team.AddCommand(new OpenWIndowCommand(team, clicked.transform.gameObject.GetComponent<Window>()));
+				break;
+			case CommandEnum.ThrowFragGrenade:
+				team.AddCommand(new FragGrenadeCommand(team));
+				break;
+			case CommandEnum.ThrowFlashGrenade:
+				throw new System.NotImplementedException("FlashGrenade");
+				break;
+			case CommandEnum.Wait:
+				throw new System.NotImplementedException("WaitPoint");
 				break;
 			default:
 				break;

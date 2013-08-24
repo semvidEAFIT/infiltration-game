@@ -3,12 +3,10 @@ using System.Collections;
 
 public class OpenWIndowCommand :  Command, IPersonListener {
 
-	private Vector3 targetPos;
 	private Window window;
 	private FireTeam executor;
 	
-	public OpenWIndowCommand(FireTeam executor, Vector3 nextPos, Window window) : base(executor){
-		this.targetPos = nextPos;
+	public OpenWIndowCommand(FireTeam executor, Window window) : base(executor){
 		this.window = window;
 		this.executor = executor;
 		executor.teammates[0].GetComponent<Soldier>().AddIPersonListener(this);
@@ -17,7 +15,6 @@ public class OpenWIndowCommand :  Command, IPersonListener {
 	protected override void Execute ()
 	{
 		//TODO: ALways in line formation?
-		this.FireTeam.Move(targetPos);
 		//NotifyCommandEnded();
 	}
 	
