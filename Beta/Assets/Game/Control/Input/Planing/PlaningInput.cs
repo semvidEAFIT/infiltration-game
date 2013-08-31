@@ -46,11 +46,9 @@ public class PlaningInput : MonoBehaviour {
 	}
 	
 	void Interact(RaycastHit hit){
-		Debug.Log(hit.collider.gameObject.tag);
 		switch(hit.collider.gameObject.tag){
 		
 		case "FireTeam":
-			Debug.Log(hit.transform.GetComponent<FireTeam>());
 			Level.Instance.SetSelectedTeam(hit.transform.GetComponent<FireTeam>());
 			break;	
 			

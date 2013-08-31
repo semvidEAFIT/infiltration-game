@@ -14,7 +14,7 @@ public class Level : MonoBehaviour {
 		}
 	}
 
-	public virtual void OnAwake(){
+	void Awake(){
 		if(instance == null){
 			instance = this;
 		}else{
