@@ -1,0 +1,18 @@
++Game
+	+Input
++Character
+	+Team
+	+Enemy
+	+Hostage
++Props
++Environment
+	+Wall
+	+Door
+	+Window
+	+Scenery
++Player Data
++Scenes
+	+Test
+	+Level
+	+Menu
++Library
